@@ -5,12 +5,13 @@ components:
     -
         kind: Application
         name: api
-        gitRepo: 'https://gitlab.com/aris.buzachis/templates-dev-test.git'
-        gitBranch: main
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: nestjs-rest-api/v0.1.0
         gitApplicationPath: components/nestjs-rest-api
         dockerCompose:
             build:
                 context: ./components/nestjs-rest-api
+                target: dev
             ports:
                 - '9000:9000'
         hosts:
@@ -21,12 +22,12 @@ components:
     -
         kind: Database
         name: mongo
-        gitRepo: 'https://gitlab.com/aris.buzachis/templates-dev-test.git'
-        gitBranch: main
         dockerCompose:
             environment:
                 MONGO_INITDB_DATABASE: books
             image: 'mongo:4.4'
+            ports:
+                - '27017:27017'
         volumes:
             -
                 name: data-volume
@@ -35,8 +36,8 @@ components:
     -
         kind: Application
         name: app
-        gitRepo: 'https://gitlab.com/aris.buzachis/templates-dev-test.git'
-        gitBranch: main
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: react-books-app/v0.1.0
         gitApplicationPath: components/react-books-app
         dockerCompose:
             build:
