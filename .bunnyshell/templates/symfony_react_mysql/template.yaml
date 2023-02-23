@@ -1,0 +1,15 @@
+name: Demo Books
+description: This app is a CRUD example, composed out of a frontend, one backend service and one database. Its purpose is to illustrate how you can quickly get started with Bunnyshell.
+tags: [ php, symfony, react, mysql ]
+icons: [ nodejs, mysql, react, symfony ]
+stack:
+  packages:
+    - name: nodejs
+      version: '16'
+    - name: react
+      version: '17'
+    - name: mysql
+      version: '8.0.29'
+    - name: symfony
+      version: 6.2.5
+discoverable: true

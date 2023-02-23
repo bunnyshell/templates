@@ -1,0 +1,10 @@
+App\Entity\Book:
+  attributes:
+    id:
+      groups: ['book:read']
+    title:
+      groups: ['book:read', 'book:create', 'book:edit']
+    description:
+      groups: ['book:read', 'book:create', 'book:edit']
+    available:
+      groups: ['book:read', 'book:create', 'book:edit']
