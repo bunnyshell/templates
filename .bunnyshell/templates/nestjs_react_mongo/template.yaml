@@ -1,4 +1,4 @@
-name: NestJS / React / MongoDB boilerplate
+name: NestJS + React + MongoDB
 description: This is a boilerplate for creating a new environment using Node, NestJS, React and MongoDB.
 tags: [ nodejs, nestjs, typescript, react, mongo ]
 icons: [ nodejs, react, mongo, nest ]
