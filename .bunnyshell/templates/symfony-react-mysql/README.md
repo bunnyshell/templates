@@ -1,4 +1,4 @@
-# Symfony / React / MySQL boilerplate
+# Symfony + React + MySQL
 
 This is a boilerplate for creating a new environment using PHP, Symfony, React and MySQL.
 
