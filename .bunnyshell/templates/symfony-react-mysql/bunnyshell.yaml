@@ -96,7 +96,7 @@ components:
                 context: ./components/react-books-app
                 args:
                     REACT_APP_BASE_API: 'https://{{ components.symfony.ingress.hosts[0] }}'
-                target: prod
+                target: dev
             ports:
                 - '8080:8080'
         hosts:
