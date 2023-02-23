@@ -1,0 +1,54 @@
+services:
+  database:
+    container_name: symfony-database
+    image: ${MYSQL_IMAGE:-mysql:8.0.29}
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-symfony}
+      - MYSQL_USER=${MYSQL_USER:-symfony_user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-symfony_pass}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-ssap_toor}
+    ports:
+      - "${MYSQL_PORT_LOCAL:-3306}:${MYSQL_PORT:-3306}"
+    volumes:
+      - ${MYSQL_STORAGE_PATH:-./database/data}:/var/lib/mysql
+
+  symfony:
+    container_name: symfony-api
+    build:
+      context: ./../
+      dockerfile: .docker/php/Dockerfile
+      target: dev
+    environment:
+      - XDEBUG_MODE=${XDEBUG_MODE:-off}
+      - XDEBUG_START_WITH_REQUEST=${XDEBUG_START_WITH_REQUEST:-trigger}
+      - PHP_OPCACHE_ENABLE=${PHP_OPCACHE_ENABLE:-0}
+      - PHP_OPCACHE_VALIDATE_TIMESTAMPS=${PHP_OPCACHE_VALIDATE_TIMESTAMPS:-0}
+      - PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-3G}
+      - RUN_WARMUP=${RUN_WARMUP:-true}
+      - RUN_PRE_RELEASE=${RUN_PRE_RELEASE:-true}
+      # for code we use the .env files mechanism provided by Symfony, we find it easier to maintain and override on local
+    expose:
+      - 9000
+    volumes:
+      - ./../:/var/www
+      - symfony_cache:/var/www/var
+
+  nginx:
+    container_name: symfony-nginx
+    build:
+      context: ./nginx
+    environment:
+      # nginx vars
+      - PHP_HOST=${NGINX_PHP_HOST:-symfony-api}
+    volumes:
+      - ./../:/var/www
+    depends_on:
+      symfony:
+        condition: service_started
+    ports:
+      - "8080:8080"
+
+volumes:
+  symfony_cache:
+  database_data:

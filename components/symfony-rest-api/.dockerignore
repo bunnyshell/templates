@@ -1,0 +1,21 @@
+# this is the ignore files for php Dockerfile
+# any changes to these files should not affect 'COPY . .' layer, because they definitely don't impact the backend build
+.docker/nginx/
+.docker/docker-compose.yaml
+.docker/.env*
+
+# code assets and cache
+public/build/
+public/bundles/
+var/
+
+# also vendor because we run composer install in Dockerfile
+vendor/
+
+# .env.local
+.env.local
+
+# README files
+README.md
+
+.git/
