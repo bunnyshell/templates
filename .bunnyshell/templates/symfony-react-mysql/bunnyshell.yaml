@@ -93,7 +93,7 @@ components:
         gitApplicationPath: components/react-books-app
         dockerCompose:
             build:
-                context: ./
+                context: ./components/react-books-app
                 args:
                     REACT_APP_BASE_API: 'https://{{ components.symfony.ingress.hosts[0] }}'
                 target: prod
