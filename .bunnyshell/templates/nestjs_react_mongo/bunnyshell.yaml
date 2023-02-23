@@ -1,0 +1,58 @@
+kind: Environment
+name: NestJS / React / MongoDB boilerplate
+type: primary
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://gitlab.com/aris.buzachis/templates-dev-test.git'
+        gitBranch: main
+        gitApplicationPath: components/nestjs-rest-api
+        dockerCompose:
+            build:
+                context: ./components/nestjs-rest-api
+            ports:
+                - '9000:9000'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 9000
+    -
+        kind: Database
+        name: mongo
+        gitRepo: 'https://gitlab.com/aris.buzachis/templates-dev-test.git'
+        gitBranch: main
+        dockerCompose:
+            environment:
+                MONGO_INITDB_DATABASE: books
+            image: 'mongo:4.4'
+        volumes:
+            -
+                name: data-volume
+                mount: /data/db
+                subPath: ''
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://gitlab.com/aris.buzachis/templates-dev-test.git'
+        gitBranch: main
+        gitApplicationPath: components/react-books-app
+        dockerCompose:
+            build:
+                context: ./components/react-books-app
+                target: dev
+            environment:
+                REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+volumes:
+    -
+        name: data-volume
+        size: 1Gi
+        type: disk

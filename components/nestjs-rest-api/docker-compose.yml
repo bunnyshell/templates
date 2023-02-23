@@ -1,0 +1,20 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    build: .
+    ports:
+      - "9091:9000"
+    volumes:
+      - .:/app
+    links:
+      - mongo
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    environment:
+      MONGO_INITDB_DATABASE: books
+    volumes:
+      - data-volume:/data/db
+volumes:
+  data-volume:
