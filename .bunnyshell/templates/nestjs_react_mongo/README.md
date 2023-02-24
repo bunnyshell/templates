@@ -11,7 +11,7 @@ The Environment contains 3 main components:
 - `api` for backend, based also on a `node` image
 - `mongo` using a `mongo` image
 
-and 1 persisnet volume:
+and 1 persistent volume:
 - `data-volume`
 
 ## Container images
