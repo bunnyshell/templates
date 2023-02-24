@@ -5,7 +5,7 @@ WORKDIR /app
 
 # App dependencies
 COPY package*.json ./
-RUN npm i
+RUN npm ci
 
 # Copy app source code
 COPY . .
@@ -16,19 +16,37 @@ EXPOSE 9000
 # Start the app
 CMD [ "npm", "run", "start:dev"]
 
-# prod stage
-FROM node:16-alpine as prod
+# build stage
+FROM node:18-alpine3.17 as build
 
 ENV NODE_ENV production
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY --chown=node:node package*.json ./
 
-# Copy app source code
-COPY . .
+COPY --chown=node:node --from=dev /app/node_modules ./node_modules
+
+COPY --chown=node:node . .
+
+RUN npm run build
+
+RUN npm ci --only=production && npm cache clean --force
+
+
+# prod stage
+FROM node:18-alpine3.17 as prod
+
+ENV NODE_ENV production
+
+WORKDIR /app
+
+COPY --chown=node:node --from=build /app/node_modules ./node_modules
+COPY --chown=node:node --from=build /app/dist ./dist
+COPY --chown=node:node .env ./
 
 EXPOSE 9000
 
-CMD ["npm", "run", "start:prod"]
+USER node
+
+CMD ["node", "dist/main.js"]

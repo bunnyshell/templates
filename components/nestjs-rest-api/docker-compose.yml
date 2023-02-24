@@ -2,7 +2,9 @@ version: "3"
 services:
   api:
     container_name: api
-    build: .
+    build:
+      context: .
+      target: dev
     ports:
       - "9091:9000"
     volumes:

@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
   IsNotEmpty,
-  IsAlphanumeric,
 } from "class-validator";
 
 /**
@@ -14,7 +13,6 @@ export class CreateBookPayload {
   @ApiProperty({
     required: true,
   })
-  @IsAlphanumeric()
   @IsNotEmpty()
   title: string;
 
@@ -22,9 +20,7 @@ export class CreateBookPayload {
    * Description field
    */
   @ApiProperty({
-    required: true,
+    required: false,
   })
-  @IsAlphanumeric()
-  @IsNotEmpty()
   description: string;
 }

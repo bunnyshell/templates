@@ -5,8 +5,8 @@ import { Schema, Document } from "mongoose";
  */
 export const Book = new Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
-  availabe: { type: Boolean, required: true, default: true },
+  description: { type: String, required: false, default: null },
+  availabe: { type: Boolean, required: false, default: true },
   createdAt: {
     type: Date,
     default: Date.now,
