@@ -1,0 +1,85 @@
+<div class="noResults" *ngIf="allBooks.length === 0">
+  <div class="text-center">
+    <h2>Nothing Here :(</h2>
+    <p>No books found in your list. Try to add a book.</p>
+    <br/>
+    <a class="btn btn-primary addBookBtnNoResults" routerLink="/books/add">
+      <img src="../../../assets/plus.svg" alt="add" /> Add Book
+    </a>
+  </div>
+</div>
+
+<div class="container booksListWrap" *ngIf="allBooks.length > 0">
+  <div>
+    <table class="table">
+      <thead>
+        <tr class="trAdd">
+          <td class="totalBooksWrap">
+            <div class="d-flex align-items-center">Total &nbsp; <span class="totalBooks">{{allBooks.length}} {{allBooks.length > 1 ? 'books' : 'book'}}</span>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <a class="btn btn-primary addBookBtn" routerLink="/books/add">
+              <img src="../../../assets/plus.svg" alt="add" /> Add another book
+            </a>
+          </td>
+        </tr>
+      </thead>
+    </table>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="thItem" scope="col">Id</th>
+          <th class="thItem" scope="col">Title</th>
+          <th class="thItem" scope="col">Description</th>
+          <th class="thItem" scope="col">Availability</th>
+          <th class="thItem" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bookRow" *ngFor="let item of allBooks">
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.title }}</td>
+          <td class="description">{{ item.description }}</td>
+          <td>
+            <span
+              [class]="{'badge': true, 'badge-success': item.available === true, 'badge-danger': item.available !== true}">
+              {{item.available === true ? 'Available': 'Not available' }}
+            </span>
+          </td>
+          <td class="actions">
+            <a class="btn btn-primary mr-1" [routerLink]="['/books/update', item.id]">
+              <img class="mr-1" src="../../../assets/edit.svg" alt="trash" /> Edit
+            </a>
+            <button type="button" (click)="openDeleteModal(item.id)" class="btn btn-danger">
+              <img class="mr-1" src="../../../assets/trash.svg" alt="trash" /> Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Warning!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to remove the book?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

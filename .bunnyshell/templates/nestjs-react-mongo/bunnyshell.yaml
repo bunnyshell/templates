@@ -6,11 +6,12 @@ components:
         kind: Application
         name: api
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: nestjs-rest-api/v0.1.1
+        gitBranch: nestjs-rest-api/v0.2.0
         gitApplicationPath: components/nestjs-rest-api
         dockerCompose:
             build:
                 context: ./components/nestjs-rest-api
+                dockerfile: .docker/Dockerfile
                 target: dev
             ports:
                 - '9000:9000'
@@ -37,11 +38,12 @@ components:
         kind: Application
         name: app
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: react-books-app/v0.1.0
+        gitBranch: react-books-app/v0.2.0
         gitApplicationPath: components/react-books-app
         dockerCompose:
             build:
                 context: ./components/react-books-app
+                dockerfile: .docker/Dockerfile
                 target: dev
             environment:
                 REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'

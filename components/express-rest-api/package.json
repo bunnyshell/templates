@@ -1,0 +1,30 @@
+{
+  "name": "bunnyshell-books-backend",
+  "version": "1.0.0",
+  "description": "Node.js Rest API with Express, Sequelize & PostgreSQL",
+  "scripts": {
+    "start": "node server.js",
+    "start:dev": "nodemon --inspect server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "sequelize",
+    "rest",
+    "api",
+    "postgresql"
+  ],
+  "author": "bezkoder",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^5.21.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
