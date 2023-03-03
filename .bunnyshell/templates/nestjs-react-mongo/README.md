@@ -96,7 +96,7 @@ You need to provide 2 additional paths:
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
-📖 For more information on starting  a remote Development session, please see:
+📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with local files](https://documentation.bunnyshell.com/docs/remote-development-local-files)
 
@@ -154,8 +154,8 @@ For the `backend` service, you need to run:
 ```
 $ bns remote-development up --port-forward "9229>9229"
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
-? Remote Path /usr/src/app/backend
-/usr/src/app/backend # npm run start:dev
+? Remote Path /app
+/app # npm run start:dev
 ```
 💡 You can also provide the `--component {ID}` option.
 
@@ -178,8 +178,8 @@ For the `backend` service, you need to run:
 ```
 $ bns remote-development up --sync-mode none --no-tty
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
-? Remote Path /usr/src/app/backend
-/usr/src/app/backend # npm run start:dev
+? Remote Path /app
+/app # npm run start:dev
 ```
 💡 You can also provide the `--component {ID}` option.
 
