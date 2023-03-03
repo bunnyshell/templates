@@ -1,7 +1,7 @@
 name: Express + Angular + PostgreSQL
 description: This is a boilerplate for creating a new environment using Node, Express, Angular and PostgreSQL. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with.
-tags: [ nodejs, express, angular, postgres ]
-icons: [ nodejs, angular, express, postgres ]
+tags: [ nodejs, express, angular, postgres, typescript ]
+icons: [ nodejs, angular, express, postgres, typescript ]
 stack:
   packages:
     - name: Node.js
