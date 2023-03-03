@@ -1,0 +1,69 @@
+kind: Environment
+name: Express / React / PostgreSQL boilerplate
+type: primary
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: express-rest-api/v0.1.0
+        gitApplicationPath: components/express-rest-api
+        dockerCompose:
+            build:
+                context: ./components/express-rest-api
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                POSTGRES_HOST: db
+                POSTGRES_DB: bunny_books
+                POSTGRES_USER: postgres
+                POSTGRES_PASSWORD: need-to-replace
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0] }}'
+            ports:
+                - '3080:3080'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 3080
+    -
+        kind: Database
+        name: db
+        dockerCompose:
+            environment:
+                POSTGRES_DB: bunny_books
+                POSTGRES_USER: postgres
+                POSTGRES_PASSWORD: need-to-replace
+            image: postgres:15.2-alpine3.17
+            ports:
+                - '5432:5432'
+        volumes:
+            -
+                name: data-volume
+                mount: /var/lib/postgresql/data
+                subPath: ''
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: react-books-app/v0.2.0
+        gitApplicationPath: components/react-books-app
+        dockerCompose:
+            build:
+                context: ./components/react-books-app
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+volumes:
+    -
+        name: data-volume
+        size: 1Gi
+        type: disk

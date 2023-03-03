@@ -1,0 +1,120 @@
+td, th {
+    vertical-align: middle;
+}
+
+.mr-1 {
+    margin-right: 8px;
+}
+
+.btn {
+    height: 38px;
+    line-height: 24px;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn img {
+    width: 16px;
+}
+
+.table {
+    margin: 0;
+}
+.table thead th,
+.table thead td {
+    color: #7a7a7a;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 16px 0.5rem;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+    border-bottom: 0;
+} 
+
+.table tr.bookRow td,
+.table tr.bookRow th {   
+    padding: 20px .5rem;
+}
+
+.table tr.bookRow:nth-child(odd) td,
+.table tr.bookRow:nth-child(odd) th {
+    background-color: #fafcff;
+}
+
+.noResults {
+    padding-top: 50px;
+}
+
+.addBookBtnNoResults {
+    width: 150px;
+}
+.addBookBtn {
+    max-width: 253px;
+    margin: 14px 0 14px auto;
+    display: block;
+}
+
+.addBookBtn img,
+.addBookBtnNoResults img {
+    width: 24px;
+}
+
+.booksListWrap {
+    margin-top: 64px;
+    border: 1px solid #ebeeef;
+    border-radius: 15px;
+    box-shadow: 0px 1px 2px #d7d7d7;
+}
+
+.totalBooksWrap > div {
+    color: #212529;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.totalBooks {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #1F2ECF;
+    border-radius: 10px;
+    padding: 3px 14px;
+    font-family: sans-serif;
+    line-height: 1;
+}
+
+.description {
+    max-width: 400px;
+}
+
+.badge-success,
+.badge-danger {
+    display: inline-block;
+    min-width: 94px;
+    padding: 5px 0;
+    border-radius: 4px;
+}
+
+.badge-success {
+    background-color: #00ff2421;
+    border: 1px solid green;
+    color: green;
+}
+
+.badge-danger {
+    background-color: #ff590014;
+    color: darkorange;
+    border: 1px solid darkorange;
+}
+.actions {
+    max-width: 0;
+    min-width: 170px;
+}
+.actions .btn {
+    width: calc(49% - 2px);
+}

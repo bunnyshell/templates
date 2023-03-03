@@ -1,0 +1,36 @@
+version: '3.4'
+services:
+  api:
+    container_name: api
+    build:
+      context: ./../
+      dockerfile: .docker/Dockerfile
+      target: ${BACKEND_BUILD_TARGET:-dev} # use "prod" for production
+    volumes:
+       - ./../:/usr/src/app/backend
+    environment:
+      - POSTGRES_HOST=db # name of the "db" service
+      - POSTGRES_DB=bunny_books
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=need-to-replace
+      - FRONTEND_URL=${FRONTEND_URL-http://localhost:8080}
+    ports:
+      - "3080:3080"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres:15.2-alpine3.17
+    restart: always
+    user: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=bunny_books
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=need-to-replace
+    expose:
+      - 5432
+
+volumes:
+  db-data:

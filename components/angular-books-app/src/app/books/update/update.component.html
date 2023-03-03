@@ -1,0 +1,18 @@
+<div class="container updateForm">
+    <legend>Update Book</legend>
+    <form>
+      <div class="mb-3">
+        <label for="txtTitle" class="form-label">Title</label>
+        <input type="text" name="title" [(ngModel)] = "bookForm.title" class="form-control" id="txtTitle" />
+      </div>
+      <div class="mb-3">
+        <label for="txtDescription" class="form-label">Description</label>
+        <input type="text" name="description" [(ngModel)] = "bookForm.description" class="form-control" id="txtDescription" />
+      </div>
+      <div class="mb-3">
+        <input type="checkbox" name="available" [(ngModel)] = "bookForm.available" class="form-check-input" id="txtAvailable" /> &nbsp;
+        <label for="txtAvailable" class="form-label">Available</label>
+      </div>
+      <button type="button" (click)="update()" class="btn btn-primary updateBtn">Update</button>
+    </form>
+</div>

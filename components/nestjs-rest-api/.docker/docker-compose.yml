@@ -3,12 +3,13 @@ services:
   api:
     container_name: api
     build:
-      context: .
+      context: ./../
+      dockerfile: .docker/Dockerfile
       target: dev
     ports:
       - "9091:9000"
     volumes:
-      - .:/app
+      - ./../:/app
     links:
       - mongo
   mongo:

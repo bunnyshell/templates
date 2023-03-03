@@ -1,0 +1,13 @@
+.addForm {
+    margin: 48px auto 0 auto;
+    max-width: 600px;
+    padding: 40px;
+    background-color: #e9efff;
+    border-radius: 20px;
+}
+
+.createBtn {
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+}
