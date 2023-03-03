@@ -10,6 +10,8 @@ stack:
       version: '4'
     - name: Angular
       version: '14'
+    - name: Typescript
+      version: '4.4'
     - name: PostgreSQL
       version: '15.2'
 discoverable: true

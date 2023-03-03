@@ -53,6 +53,12 @@ components:
                 context: ./components/angular-books-app
                 dockerfile: .docker/Dockerfile
                 target: dev
+            deploy:
+                resources:
+                    limits:
+                        memory: 1.5G
+                    reservations:
+                        memory: 1.5G
             environment:
                 API_URL: 'https://{{ components.api.ingress.hosts[0] }}'
             labels:

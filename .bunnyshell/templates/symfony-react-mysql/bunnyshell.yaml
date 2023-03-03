@@ -89,11 +89,12 @@ components:
         kind: Application
         name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: react-books-app/v0.2.0
+        gitBranch: react-books-app/v0.3.0
         gitApplicationPath: components/react-books-app
         dockerCompose:
             build:
                 context: ./components/react-books-app
+                dockerfile: .docker/Dockerfile
                 args:
                     REACT_APP_BASE_API: 'https://{{ components.symfony.ingress.hosts[0] }}'
                 target: dev
