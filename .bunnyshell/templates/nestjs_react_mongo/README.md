@@ -92,7 +92,7 @@ bns remote-development up
 
 You need to provide 2 additional paths:
 - the *local path*, for your local code files
-- the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`)
+- the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/app`.
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
@@ -107,7 +107,7 @@ When working directly with the files from the container, you need to disable the
 bns remote-development up --sync-mode none
 ```
 
-You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`).
+You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/app`.
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
