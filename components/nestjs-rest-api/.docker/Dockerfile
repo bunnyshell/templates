@@ -1,5 +1,7 @@
 FROM node:18-alpine3.17 as dev
 
+ENV NODE_ENV development
+
 # App directory
 WORKDIR /app
 
