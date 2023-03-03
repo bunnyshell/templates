@@ -1,5 +1,5 @@
 # dev stage
-FROM node:18-alpine3.17 as dev
+FROM node:16-alpine as dev
 
 ENV NODE_ENV development
 
