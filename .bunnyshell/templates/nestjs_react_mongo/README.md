@@ -96,7 +96,7 @@ You need to provide 2 additional paths:
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
-📖 For more information on starting and stopping a remote Development session, please see:
+📖 For more information on starting  a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with local files](https://documentation.bunnyshell.com/docs/remote-development-local-files)
 
@@ -112,7 +112,7 @@ You need to provide the *remote path*: the path where code files are located wit
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
 
-📖 For more information on starting and stopping a remote Development session, please see:
+📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with remote files](https://documentation.bunnyshell.com/docs/remote-development-remote-files)
 
@@ -128,7 +128,7 @@ bns remote-development down
 The CLI will present a wizard, so you can choose your Environment first, then the Component for which you want to stop the session for.  
 You can also pass on the Component ID, to skip the wizard. The full command can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*.
 
-📖 For more information on starting and stopping a remote Development session, please see:
+📖 For more information on stopping a remote Development session, please see:
 - [Stop Remote Development](https://documentation.bunnyshell.com/docs/remote-development-stop)
 
 &nbsp;
@@ -141,7 +141,7 @@ The configuration differs based on the way you chose to work, and also on your I
 
 &nbsp;
 
-#### Debugging with code from your machine
+#### Debugging backend with code from your machine
 
 When debugging with local code, you need to:
 1. start the Remote Development session with port-forwarding on the debugger's port (`9229` for `nodemon`)
@@ -165,7 +165,7 @@ $ bns remote-development up --port-forward "9229>9229"
 
 &nbsp;
 
-#### Debugging with code from the container 
+#### Debugging backend with code from the container 
 
 When debugging with remote code, you need to:
 1. have the necessary libraries installed in the container image: see [Prepare the container image](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-the-container-image)
@@ -185,6 +185,17 @@ $ bns remote-development up --sync-mode none --no-tty
 
 📖 For more information on debugging remotely, please see:
 - [Debugging remotely with VS Code](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code)
+
+&nbsp;
+
+#### Debugging frontend
+
+Debugging frontend applications has a different approach than debugging backend applications, as it leverage the WDS (Webpack Dev Server) technique for modern javascript frameworks.
+
+You only need to configure your IDE for the Remote Environment, and this is a matter of following a few simple steps.
+
+📖 For more information on debugging frontend applications, please see:
+- [Debugging frontend apps](https://documentation.bunnyshell.com/docs/remote-development-debugging-frontend)
 
 &nbsp;
 
