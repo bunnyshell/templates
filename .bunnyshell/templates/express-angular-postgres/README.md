@@ -114,13 +114,22 @@ $ bns remote-development up --component {YOUR_COMPONENT_ID}
 
 When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command:
 ```
-bns remote-development up --sync-mode none
+bns remote-development up --component {YOUR_COMPONENT_ID} --sync-mode none
 ```
 
 You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/usr/src/app/backend`.
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
+After starting the Remote Development session, the Bunnyshell CLI opens a shell into the container. From it, you can run any application-related command you would run on local.  
+Please note that **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+
+```
+$ bns remote-development up --component {YOUR_COMPONENT_ID}
+? Local Path {YOUR_OWN_LOCAL_PATH}}
+? Remote Path /usr/src/app/backend
+/usr/src/app/backend # npm run start
+```
 
 📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
