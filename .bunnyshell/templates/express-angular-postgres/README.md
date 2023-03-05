@@ -145,7 +145,11 @@ bns remote-development down
 ```
 
 The CLI will present a wizard, so you can choose your Environment first, then the Component for which you want to stop the session for.  
-You can also pass on the Component ID, to skip the wizard. The full command can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*.
+You can also pass on the Component ID, to skip the wizard. The full command for starting a session can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*. Then, you just need to replace `up` with `down.
+
+```
+ bns remote-development down --component {YOUR_COMPONENT_ID}
+```
 
 📖 For more information on stopping a remote Development session, please see:
 - [Stop Remote Development](https://documentation.bunnyshell.com/docs/remote-development-stop)

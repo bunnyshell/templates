@@ -141,7 +141,7 @@ $ bns remote-development up --component {YOUR_COMPONENT_ID}
 
 In order to stop a Remote Development session, you must run the dedicated command from the CLI:
 ```
-bns remote-development down
+bns remote-development down --component {YOUR_COMPONENT_ID}
 ```
 
 The CLI will present a wizard, so you can choose your Environment first, then the Component for which you want to stop the session for.  
