@@ -56,13 +56,13 @@ components:
             deploy:
                 resources:
                     limits:
-                        memory: 1.5G
+                        memory: 1G
                     reservations:
-                        memory: 1.5G
+                        memory: 1G
             environment:
                 API_URL: 'https://{{ components.api.ingress.hosts[0] }}'
             labels:
-                kompose.service.healthcheck.readiness.test: 'CMD sh -c "wget --no-verbose --tries=1 --spider http://localhost:8080 || exit 1"'
+                kompose.service.healthcheck.readiness.test: 'CMD sh -c "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080 || exit 1"'
                 kompose.service.healthcheck.readiness.interval: 15s
                 kompose.service.healthcheck.readiness.timeout: 10s
                 kompose.service.healthcheck.readiness.retries: 10
