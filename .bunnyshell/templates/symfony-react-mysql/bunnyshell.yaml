@@ -54,6 +54,7 @@ components:
                 RUN_WARMUP: 'true'
                 XDEBUG_MODE: 'develop,debug'
                 XDEBUG_START_WITH_REQUEST: 'yes'
+                XDEBUG_IDE_KEY: 'PHPSTORM'
             ports:
                 - '9000:9000'
                 - '8080:8080'
