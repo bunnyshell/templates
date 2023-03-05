@@ -116,9 +116,9 @@ $ bns remote-development up --component {YOUR_COMPONENT_ID}
 
 #### Working with code from the container
 
-When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in ``--no-tty`, to disbale leaving an SSH terminal into the container.
+When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in `--no-tty`, to disable leaving an SSH terminal into the container, but this is optional and depends on your preferences.
 
-You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/usr/src/app/backend`.
+You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `api` application, it is `/usr/src/app/backend`.
 
 💡 The wizard will require this from you, but you can also provide it as an option, using `-r`.
 
@@ -129,7 +129,9 @@ Pod is ready for Remote Development.
 You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
 ```
 
-Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
+
+Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.  
 🚀 [See how to configure VS Code for Remote Development via SSH](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
 
 Please note that using the Terminal from the IDE, **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
@@ -180,7 +182,7 @@ When debugging with local code, you need to:
 4. define a file mapping (local to remote) for the IDE configuration (eg. `{YOUR_OWN_LOCAL_PATH}}` to `/usr/src/app/backend`)
 5. start the debug process from your IDE
 
-For the `backend` service, you need to run:
+For the `api` service, you need to run:
 ```
 $ bns remote-development up --port-forward "9229>9229"
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
@@ -191,7 +193,7 @@ $ bns remote-development up --port-forward "9229>9229"
 
 📖 For more information on debugging locally, please see:
 - [Debugging locally with port forwarding](https://documentation.bunnyshell.com/docs/remote-development-debugging)
-  - [Debugging node.js](https://documentation.bunnyshell.com/docs/remote-development-debugging-nodejs) for both `frontend` and `backend`
+  - [Debugging node.js](https://documentation.bunnyshell.com/docs/remote-development-debugging-nodejs) for both `app` and `api`
 
 &nbsp;
 
@@ -204,7 +206,7 @@ When debugging with remote code, you need to:
 4. [configure the IDE SSH connection](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
 5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug)
 
-For the `backend` service, you need to run:
+For the `api` service, you need to run:
 ```
 $ bns remote-development up --sync-mode none --no-tty
 ? Local Path {YOUR_OWN_LOCAL_PATH}}

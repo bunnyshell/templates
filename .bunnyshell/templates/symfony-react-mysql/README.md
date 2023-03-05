@@ -117,7 +117,7 @@ $ bns remote-development up --component {YOUR_COMPONENT_ID}
 
 #### Working with code from the container
 
-When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in ``--no-tty`, to disbale leaving an SSH terminal into the container.
+When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in `--no-tty`, to disable leaving an SSH terminal into the container, but this is optional and depends on your preferences.
 
 You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `symfony` application, it is `/var/www`.
 
@@ -130,7 +130,9 @@ Pod is ready for Remote Development.
 You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
 ```
 
-Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
+
+Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.  
 🚀 [See how to configure VS Code for Remote Development via SSH](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
 
 Please note that using the Terminal from the IDE, **you must start the php-fpm process** manually.
