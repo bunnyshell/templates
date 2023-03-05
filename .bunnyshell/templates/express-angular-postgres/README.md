@@ -96,6 +96,16 @@ You need to provide 2 additional paths:
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
+After starting the Remote Development session, the Bunnyshell CLI opens a shell into the container. From it, you can run any application-related command you would run on local.  
+Please note that **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+
+```
+$ bns remote-development up --component {YOUR_COMPONENT_ID}
+? Local Path {YOUR_OWN_LOCAL_PATH}}
+? Remote Path /usr/src/app/backend
+/usr/src/app/backend # npm run start
+```
+
 📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with local files](https://documentation.bunnyshell.com/docs/remote-development-local-files)
