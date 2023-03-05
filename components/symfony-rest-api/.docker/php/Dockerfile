@@ -50,6 +50,8 @@ USER docker
 # - copy composer.json and composer lock (optimise image build - copy only these files and run install, if these change rarely we can reuse this image layer too)
 COPY composer.json composer.lock symfony.lock ./
 
+
+
 # Prod image
 FROM base AS prod
 
@@ -63,10 +65,15 @@ COPY --chown=docker:docker . .
 # - run some build scripts
 RUN composer run-script build
 
+
+
 # Dev image
 FROM base AS dev
 
 USER root
+
+# Needed for VS Code Remote Development
+RUN apk add musl libgcc libstdc++ git curl wget bash ca-certificates gcompat openssh-client
 
 RUN set -eux; \
 	install-php-extensions xdebug
