@@ -202,18 +202,23 @@ $ bns remote-development up --port-forward "9229>9229"
 When debugging with remote code, you need to:
 1. have the necessary libraries installed in the container image: see [Prepare the container image](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-the-container-image)
 2. install the necessary IDE extensions (if any): see [Prepare VS Code Extensions](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-vs-code-extensions)
-3. start the Remote Development session with no code sync, `--sync-mode none` and without an interactive shell once the preparation is done `--no-tty`
+3. start the Remote Development session with no code sync, `--sync-mode none` and (optionally) without an interactive shell once the preparation is done `--no-tty` (See "Working with code from the container" from the current Template description)
 4. [configure the IDE SSH connection](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
 5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug)
 
 For the `api` service, you need to run:
 ```
 $ bns remote-development up --sync-mode none --no-tty
-? Local Path {YOUR_OWN_LOCAL_PATH}}
 ? Remote Path /usr/src/app/backend
-/usr/src/app/backend # npm run start:dev
+Pod is ready for Remote Development.
+You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
 ```
 💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
+
+And within the IDE terminal, you need to start the `node` process with debugging capabilities:
+```
+/usr/src/app/backend # npm run start:dev
+```
 
 📖 For more information on debugging remotely, please see:
 - [Debugging remotely with VS Code](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code)
