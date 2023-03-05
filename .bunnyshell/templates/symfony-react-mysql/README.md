@@ -188,7 +188,7 @@ $ bns remote-development up --port-forward "9003<9003"
 ? Remote Path /var/www
 /var/www # php-fpm
 ```
-💡 You can also provide the `--component {ID}` option.
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
 
 📖 For more information on debugging locally, please see:
 - [Debugging locally with port forwarding](https://documentation.bunnyshell.com/docs/remote-development-debugging)
@@ -212,7 +212,7 @@ $ bns remote-development up --sync-mode none --no-tty
 ? Remote Path /var/www
 /var/www # php-fpm
 ```
-💡 You can also provide the `--component {ID}` option.
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
 
 📖 For more information on debugging remotely, please see:
 - [Debugging remotely with VS Code](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code)
