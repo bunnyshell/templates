@@ -190,6 +190,8 @@ $ bns remote-development up --port-forward "9003<9003"
 ```
 💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
 
+You can now add breakpoints and start debugging.
+
 📖 For more information on debugging locally, please see:
 - [Debugging locally with port forwarding](https://documentation.bunnyshell.com/docs/remote-development-debugging)
   - [Debugging PHP](https://documentation.bunnyshell.com/docs/remote-development-debugging-php) for `symfony`
@@ -218,6 +220,8 @@ And within the IDE terminal, you need to start the `php-fpm` service:
 ```
 /var/www # php-fpm
 ```
+
+You can now add breakpoints and start debugging.
 
 📖 For more information on debugging remotely, please see:
 - [Debugging remotely with VS Code](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code)
