@@ -83,6 +83,8 @@ You can also pass on the Component ID, to skip the wizard. The full command can 
 
 You need to choose the way you wish to work with files, before starting the Remote Development session.
 
+&nbsp;
+
 #### Working with code from your machine
 
 When working with code stored locally (the default mode), you just need to run:
@@ -110,24 +112,29 @@ $ bns remote-development up --component {YOUR_COMPONENT_ID}
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with local files](https://documentation.bunnyshell.com/docs/remote-development-local-files)
 
+&nbsp;
+
 #### Working with code from the container
 
-When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command:
-```
-bns remote-development up --component {YOUR_COMPONENT_ID} --sync-mode none
-```
+When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in ``--no-tty`, to disbale leaving an SSH terminal into the container.
 
 You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/usr/src/app/backend`.
 
-💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
-
-After starting the Remote Development session, the Bunnyshell CLI opens a shell into the container. From it, you can run any application-related command you would run on local.  
-Please note that **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+💡 The wizard will require this from you, but you can also provide it as an option, using `-r`.
 
 ```
-$ bns remote-development up --component {YOUR_COMPONENT_ID}
-? Local Path {YOUR_OWN_LOCAL_PATH}}
+bns remote-development up --sync-mode none --no-tty
 ? Remote Path /usr/src/app/backend
+Pod is ready for Remote Development.
+You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
+```
+
+Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.
+🚀 [See how to configure VS Code for Remote Development via SSH](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
+
+Please note that using the Terminal from the IDE, **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+
+```
 /usr/src/app/backend # npm run start
 ```
 
