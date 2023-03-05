@@ -105,7 +105,7 @@ Please note that **you must start the application** manually, as you may needed 
 $ bns remote-development up --component {YOUR_COMPONENT_ID}
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
 ? Remote Path /app
-/app # npm run start
+/app # npm run start:dev
 ```
 
 📖 For more information on starting a remote Development session, please see:
@@ -137,7 +137,7 @@ Using the SSH config file, you can now configure your IDE to connect remotely to
 Please note that using the Terminal from the IDE, **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
 
 ```
-/app # npm run start
+/app # npm run start:dev
 ```
 
 📖 For more information on starting a remote Development session, please see:
