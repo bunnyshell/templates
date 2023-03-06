@@ -14,11 +14,11 @@ components:
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
-                POSTGRES_HOST: db
-                POSTGRES_DB: bunny_books
-                POSTGRES_USER: postgres
-                POSTGRES_PASSWORD: need-to-replace
                 FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0] }}'
+                POSTGRES_DB: bunny_books
+                POSTGRES_HOST: db
+                POSTGRES_PASSWORD: need-to-replace
+                POSTGRES_USER: postgres
             ports:
                 - '3080:3080'
         hosts:
@@ -32,8 +32,8 @@ components:
         dockerCompose:
             environment:
                 POSTGRES_DB: bunny_books
-                POSTGRES_USER: postgres
                 POSTGRES_PASSWORD: need-to-replace
+                POSTGRES_USER: postgres
             image: postgres:15.2-alpine3.17
             ports:
                 - '5432:5432'

@@ -95,10 +95,10 @@ components:
         dockerCompose:
             build:
                 context: ./components/react-books-app
-                dockerfile: .docker/Dockerfile
-                args:
-                    REACT_APP_BASE_API: 'https://{{ components.symfony.ingress.hosts[0] }}'
+                dockerfile: .docker/Dockerfile    
                 target: dev
+            environment:
+                REACT_APP_BASE_API: 'https://{{ components.symfony.ingress.hosts[0] }}'
             ports:
                 - '8080:8080'
         hosts:

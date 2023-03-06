@@ -12,4 +12,5 @@ README.md
 
 .git/
 .docker/
+!.docker/files/entrypoint.sh
 !.docker/files/nginx.conf

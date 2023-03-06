@@ -34,9 +34,12 @@ FROM nginx:1.21.3-alpine AS prod
 # Copy the built app to the Nginx HTML directory
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-COPY .docker/files/nginx.conf  /etc/nginx/conf.d/default.conf
+COPY .docker/files/nginx.conf /etc/nginx/conf.d/default.conf
+COPY .docker/files/entrypoint.sh /usr/share/entrypoint.sh
 
 EXPOSE 8080
+
+ENTRYPOINT ["/usr/share/entrypoint.sh"]
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
