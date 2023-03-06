@@ -47,13 +47,14 @@ components:
             environment:
                 DATABASE_URL: 'mysql://symfony_user:symfony_pass@database:3306/symfony?serverVersion=8&charset=utf8mb4'
                 FRONTEND_URL: 'https://{{ components.frontend.ingress.hosts[0] }}'
-                PHP_MEMORY_LIMIT: 3G
+                PHP_MEMORY_LIMIT: '1G'
                 PHP_OPCACHE_ENABLE: '0'
                 PHP_OPCACHE_VALIDATE_TIMESTAMPS: '0'
                 RUN_PRE_RELEASE: 'true'
                 RUN_WARMUP: 'true'
-                XDEBUG_MODE: 'off'
-                XDEBUG_START_WITH_REQUEST: trigger
+                XDEBUG_MODE: 'develop,debug'
+                XDEBUG_START_WITH_REQUEST: 'yes'
+                XDEBUG_IDE_KEY: 'PHPSTORM'
             ports:
                 - '9000:9000'
                 - '8080:8080'

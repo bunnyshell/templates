@@ -83,6 +83,8 @@ You can also pass on the Component ID, to skip the wizard. The full command can 
 
 You need to choose the way you wish to work with files, before starting the Remote Development session.
 
+&nbsp;
+
 #### Working with code from your machine
 
 When working with code stored locally (the default mode), you just need to run:
@@ -92,25 +94,51 @@ bns remote-development up
 
 You need to provide 2 additional paths:
 - the *local path*, for your local code files
-- the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/usr/src/app/backend`.
+- the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `api` application, it is `/usr/src/app/backend`.
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
+
+After starting the Remote Development session, the Bunnyshell CLI opens a shell into the container. From it, you can run any application-related command you would run on local.  
+Please note that **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+
+```
+$ bns remote-development up --component {YOUR_COMPONENT_ID}
+? Local Path {YOUR_OWN_LOCAL_PATH}}
+? Remote Path /usr/src/app/backend
+/usr/src/app/backend # npm run start:dev
+```
 
 📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with local files](https://documentation.bunnyshell.com/docs/remote-development-local-files)
 
+&nbsp;
+
 #### Working with code from the container
 
-When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command:
+When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in `--no-tty`, to disable leaving an SSH terminal into the container, but this is optional and depends on your preferences.
+
+You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `api` application, it is `/usr/src/app/backend`.
+
+💡 The wizard will require this from you, but you can also provide it as an option, using `-r`.
+
 ```
-bns remote-development up --sync-mode none
+bns remote-development up --sync-mode none --no-tty
+? Remote Path /usr/src/app/backend
+Pod is ready for Remote Development.
+You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
 ```
 
-You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/usr/src/app/backend`.
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
 
-💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
+Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.  
+🚀 [See how to configure VS Code for Remote Development via SSH](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
 
+Please note that using the Terminal from the IDE, **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+
+```
+/usr/src/app/backend # npm run start:dev
+```
 
 📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
@@ -126,7 +154,11 @@ bns remote-development down
 ```
 
 The CLI will present a wizard, so you can choose your Environment first, then the Component for which you want to stop the session for.  
-You can also pass on the Component ID, to skip the wizard. The full command can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*.
+You can also pass on the Component ID, to skip the wizard. The full command for starting a session can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*. Then, you just need to replace `up` with `down.
+
+```
+ bns remote-development down --component {YOUR_COMPONENT_ID}
+```
 
 📖 For more information on stopping a remote Development session, please see:
 - [Stop Remote Development](https://documentation.bunnyshell.com/docs/remote-development-stop)
@@ -150,18 +182,20 @@ When debugging with local code, you need to:
 4. define a file mapping (local to remote) for the IDE configuration (eg. `{YOUR_OWN_LOCAL_PATH}}` to `/usr/src/app/backend`)
 5. start the debug process from your IDE
 
-For the `backend` service, you need to run:
+For the `api` service, you need to run:
 ```
 $ bns remote-development up --port-forward "9229>9229"
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
 ? Remote Path /usr/src/app/backend
 /usr/src/app/backend # npm run start:dev
 ```
-💡 You can also provide the `--component {ID}` option.
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
+
+You can now add breakpoints and start debugging.
 
 📖 For more information on debugging locally, please see:
 - [Debugging locally with port forwarding](https://documentation.bunnyshell.com/docs/remote-development-debugging)
-  - [Debugging node.js](https://documentation.bunnyshell.com/docs/remote-development-debugging-nodejs) for both `frontend` and `backend`
+  - [Debugging node.js](https://documentation.bunnyshell.com/docs/remote-development-debugging-nodejs) for both `app` and `api`
 
 &nbsp;
 
@@ -170,18 +204,25 @@ $ bns remote-development up --port-forward "9229>9229"
 When debugging with remote code, you need to:
 1. have the necessary libraries installed in the container image: see [Prepare the container image](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-the-container-image)
 2. install the necessary IDE extensions (if any): see [Prepare VS Code Extensions](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-vs-code-extensions)
-3. start the Remote Development session with no code sync, `--sync-mode none` and without an interactive shell once the preparation is done `--no-tty`
+3. start the Remote Development session with no code sync, `--sync-mode none` and (optionally) without an interactive shell once the preparation is done `--no-tty` (See "Working with code from the container" from the current Template description)
 4. [configure the IDE SSH connection](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
-5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug)
+5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug-nodejs)
 
-For the `backend` service, you need to run:
+For the `api` service, you need to run:
 ```
 $ bns remote-development up --sync-mode none --no-tty
-? Local Path {YOUR_OWN_LOCAL_PATH}}
 ? Remote Path /usr/src/app/backend
+Pod is ready for Remote Development.
+You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
+```
+💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
+
+And within the IDE terminal, you need to start the `node` process with debugging capabilities:
+```
 /usr/src/app/backend # npm run start:dev
 ```
-💡 You can also provide the `--component {ID}` option.
+
+You can now add breakpoints and start debugging.
 
 📖 For more information on debugging remotely, please see:
 - [Debugging remotely with VS Code](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code)

@@ -12,3 +12,4 @@ README.md
 
 .git/
 .docker/
+!.docker/files/nginx.conf

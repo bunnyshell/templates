@@ -3,6 +3,9 @@ FROM node:18-alpine3.17 as dev
 
 ENV NODE_ENV=development
 
+# Needed for VS Code Remote Development
+RUN apk add musl libgcc libstdc++ git curl wget bash ca-certificates gcompat openssh-client
+
 # setup workdir (next commands will run under this context, but also the running container will inherit this - if not overriden at runtime)
 WORKDIR /usr/src/app/backend
 
