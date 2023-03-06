@@ -174,6 +174,8 @@ The configuration differs based on the way you chose to work, and also on your I
 
 The image is [already prepared for debugging](https://documentation.bunnyshell.com/docs/remote-development-debugging-php#prepare-the-container-image) with Xdebug.
 
+⚠️ Do not forget to replace the build argument `XDEBUG_IDE_KEY` from the `symfony` service with your IDE's correct value.
+
 When debugging with local code, you need to:
 1. start the Remote Development session with reverse port-forwarding on the debugger's port (`9003` for `xdebug`)
 2. start the php-fpm process (eg. run `php-fpm`) in the shell you're left in after the `bns remote-development up` command finishes
