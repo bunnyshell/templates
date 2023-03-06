@@ -1,0 +1,73 @@
+kind: Environment
+name: NestJS / Angular / MongoDB boilerplate
+type: primary
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: nestjs-rest-api/v0.3.0
+        gitApplicationPath: components/nestjs-rest-api
+        dockerCompose:
+            build:
+                context: ./components/nestjs-rest-api
+                dockerfile: .docker/Dockerfile
+                target: dev
+            ports:
+                - '9000:9000'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 9000
+    -
+        kind: Database
+        name: mongo
+        dockerCompose:
+            environment:
+                MONGO_INITDB_DATABASE: books
+            image: 'mongo:4.4'
+            ports:
+                - '27017:27017'
+        volumes:
+            -
+                name: data-volume
+                mount: /data/db
+                subPath: ''
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: angular-books-app/v0.2.0
+        gitApplicationPath: components/angular-books-app
+        dockerCompose:
+            build:
+                context: ./components/angular-books-app
+                dockerfile: .docker/Dockerfile
+                target: dev
+            deploy:
+                resources:
+                    limits:
+                        memory: 1G
+                    reservations:
+                        memory: 1G
+            environment:
+                API_URL: 'https://{{ components.api.ingress.hosts[0] }}'
+            labels:
+                kompose.service.healthcheck.readiness.test: 'CMD sh -c "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080 || exit 1"'
+                kompose.service.healthcheck.readiness.interval: 15s
+                kompose.service.healthcheck.readiness.timeout: 10s
+                kompose.service.healthcheck.readiness.retries: 10
+                kompose.service.healthcheck.readiness.start_period: 120s
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+volumes:
+    -
+        name: data-volume
+        size: 1Gi
+        type: disk
