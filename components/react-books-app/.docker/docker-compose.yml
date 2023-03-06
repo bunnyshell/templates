@@ -6,9 +6,6 @@ services:
       context: ./../
       dockerfile: .docker/Dockerfile
       target: ${FRONTEND_BUILD_TARGET:-dev} # use "prod" for production
-      # use when building for production
-      #args:
-      #  REACT_APP_BASE_API: ${BACKEND_URL:-http://localhost:9091}
     environment:
       REACT_APP_BASE_API: ${BACKEND_URL:-http://localhost:9091}
     volumes:
