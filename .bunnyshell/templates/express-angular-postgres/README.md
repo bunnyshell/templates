@@ -206,7 +206,7 @@ When debugging with remote code, you need to:
 2. install the necessary IDE extensions (if any): see [Prepare VS Code Extensions](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-vs-code-extensions)
 3. start the Remote Development session with no code sync, `--sync-mode none` and (optionally) without an interactive shell once the preparation is done `--no-tty` (See "Working with code from the container" from the current Template description)
 4. [configure the IDE SSH connection](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
-5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug)
+5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug-nodejs)
 
 For the `api` service, you need to run:
 ```
