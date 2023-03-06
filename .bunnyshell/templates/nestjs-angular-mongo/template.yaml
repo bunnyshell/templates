@@ -1,0 +1,17 @@
+name: NestJS + Angular + MongoDB
+description: This is a boilerplate for creating a new environment using Node, NestJS, Angular (with Typescript) and MongoDB. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with.
+tags: [ nodejs, nestjs, angular, typescript, mongo ]
+icons: [ nodejs, nest, angular, typescript, mongo ]
+stack:
+  packages:
+    - name: Node.js
+      version: '18'
+    - name: NestJS
+      version: '8'
+    - name: Angular
+      version: '14'
+    - name: Typescript
+      version: '4.4'
+    - name: MongoDB
+      version: '4.4'
+discoverable: true
