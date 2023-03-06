@@ -24,7 +24,7 @@ components:
         kind: SidecarContainer
         name: nginx
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: main
+        gitBranch: symfony-rest-api/v0.1.0
         gitApplicationPath: components/symfony-rest-api/.docker/nginx
         dockerCompose:
             build:
@@ -37,7 +37,7 @@ components:
         kind: Application
         name: symfony
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: main
+        gitBranch: symfony-rest-api/v0.1.0
         gitApplicationPath: components/symfony-rest-api
         dockerCompose:
             build:
@@ -90,7 +90,7 @@ components:
         kind: Application
         name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: react-books-app/v0.3.0
+        gitBranch: react-books-app/v0.4.0
         gitApplicationPath: components/react-books-app
         dockerCompose:
             build:
