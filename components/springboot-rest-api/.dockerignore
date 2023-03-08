@@ -1,0 +1,4 @@
+.git/
+target/
+core.*
+hs_err_pid*

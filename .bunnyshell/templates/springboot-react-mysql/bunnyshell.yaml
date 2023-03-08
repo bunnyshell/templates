@@ -1,0 +1,72 @@
+kind: Environment
+name: Spring Boot / React / MySQL boilerplate
+type: primary
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: springboot-rest-api/v0.1.0
+        gitApplicationPath: components/springboot-rest-api
+        dockerCompose:
+            build:
+                context: ./components/springboot-rest-api
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                DATABASE_DBNAME: bunny_books
+                DATABASE_HOST: db
+                DATABASE_PASSWORD: need-to-replace
+                DATABASE_PORT: '3306'
+                DATABASE_USER: books
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0] }}'
+            ports:
+                - '9000:9000'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 9000
+    -
+        kind: Database
+        name: db
+        dockerCompose:
+            command: '--default-authentication-plugin=mysql_native_password'
+            environment:
+                MYSQL_DATABASE: bunny_books
+                MYSQL_PASSWORD: need-to-replace
+                MYSQL_ROOT_PASSWORD: need-to-replace
+                MYSQL_USER: books
+            image: 'mysql:8.0.32'
+            ports:
+                - '3306:3306'
+        volumes:
+            -
+                name: db-data
+                mount: /var/lib/mysql
+                subPath: ''
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: react-books-app/v0.4.0
+        gitApplicationPath: components/react-books-app
+        dockerCompose:
+            build:
+                context: ./components/react-books-app
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+volumes:
+    -
+        name: db-data
+        size: 1Gi
+        type: disk

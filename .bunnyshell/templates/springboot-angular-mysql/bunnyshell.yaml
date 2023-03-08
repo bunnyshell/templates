@@ -1,0 +1,84 @@
+kind: Environment
+name: Spring Boot / Angular / MySQL boilerplate
+type: primary
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: springboot-rest-api/v0.1.0
+        gitApplicationPath: components/springboot-rest-api
+        dockerCompose:
+            build:
+                context: ./components/springboot-rest-api
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                DATABASE_DBNAME: bunny_books
+                DATABASE_HOST: db
+                DATABASE_PASSWORD: need-to-replace
+                DATABASE_PORT: '3306'
+                DATABASE_USER: books
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0] }}'
+            ports:
+                - '9000:9000'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 9000
+    -
+        kind: Database
+        name: db
+        dockerCompose:
+            command: '--default-authentication-plugin=mysql_native_password'
+            environment:
+                MYSQL_DATABASE: bunny_books
+                MYSQL_PASSWORD: need-to-replace
+                MYSQL_ROOT_PASSWORD: need-to-replace
+                MYSQL_USER: books
+            image: 'mysql:8.0.32'
+            ports:
+                - '3306:3306'
+        volumes:
+            -
+                name: db-data
+                mount: /var/lib/mysql
+                subPath: ''
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: angular-books-app/v0.2.0
+        gitApplicationPath: components/angular-books-app
+        dockerCompose:
+            build:
+                context: ./components/angular-books-app
+                dockerfile: .docker/Dockerfile
+                target: dev
+            deploy:
+                resources:
+                    limits:
+                        memory: 1G
+                    reservations:
+                        memory: 1G
+            environment:
+                API_URL: 'https://{{ components.api.ingress.hosts[0] }}'
+            labels:
+                kompose.service.healthcheck.readiness.test: 'CMD sh -c "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080 || exit 1"'
+                kompose.service.healthcheck.readiness.interval: 15s
+                kompose.service.healthcheck.readiness.timeout: 10s
+                kompose.service.healthcheck.readiness.retries: 10
+                kompose.service.healthcheck.readiness.start_period: 120s
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+volumes:
+    -
+        name: db-data
+        size: 1Gi
+        type: disk
