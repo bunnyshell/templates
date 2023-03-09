@@ -9,6 +9,9 @@ ENV REACT_APP_BASE_API $REACT_APP_BASE_API
 # setup workdir (next commands will run under this context, but also the running container will inherit this - if not overriden at runtime)
 WORKDIR /usr/src/app/
 
+# Needed for VS Code Remote Development
+RUN apk add musl libgcc libstdc++ git curl wget bash ca-certificates gcompat openssh-client
+
 # Build App
 # - copy package.json and yarn.lock (optimise image build - copy only these files and run install, if these change rarely we can reuse this image layer too)
 COPY package*.json ./

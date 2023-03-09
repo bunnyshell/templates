@@ -90,7 +90,7 @@ components:
         kind: Application
         name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: react-books-app/v0.4.0
+        gitBranch: react-books-app/v0.5.0
         gitApplicationPath: components/react-books-app
         dockerCompose:
             build:
