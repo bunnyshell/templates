@@ -38,7 +38,7 @@ components:
         kind: Application
         name: app
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: angular-books-app/v0.2.0
+        gitBranch: angular-books-app/v0.3.0
         gitApplicationPath: components/angular-books-app
         dockerCompose:
             build:
