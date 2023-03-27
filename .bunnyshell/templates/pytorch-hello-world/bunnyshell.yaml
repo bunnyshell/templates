@@ -1,0 +1,52 @@
+kind: Environment
+name: PyTorch Hello World
+type: primary
+components:
+    -
+        kind: Application
+        name: backend
+        gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
+        gitBranch: main
+        gitApplicationPath: components/pytorch-hello-world-backend
+        dockerCompose:
+            build:
+                context: ./components/pytorch-hello-world-backend
+                dockerfile: .docker/Dockerfile
+            environment:
+                ALLOWED_ORIGIN: 'https://{{ components.frontend.ingress.hosts[0] }}'
+                DEBUG: 'True'
+            ports:
+                - '8080:5000'
+        volumes:
+            - name: training-data-volume
+              mount: /app/data
+              subPath: ''
+        hosts:
+            -
+                hostname: 'backend-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+    -
+        kind: Application
+        name: frontend
+        gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
+        gitBranch: main
+        gitApplicationPath: components/pytorch-hello-world-frontend
+        dockerCompose:
+            build:
+                context: ./components/pytorch-hello-world-frontend
+                dockerfile: .docker/Dockerfile
+            environment:
+                API_URL: 'https://{{ components.backend.ingress.hosts[0] }}'
+            ports:
+                - '80:80'
+        hosts:
+            -
+                hostname: 'frontend-{{ env.base_domain }}'
+                path: /
+                servicePort: 80
+volumes:
+    -
+        name: training-data-volume
+        size: 1Gi
+        type: disk
