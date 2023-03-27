@@ -5,8 +5,8 @@ components:
     -
         kind: Application
         name: backend
-        gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
-        gitBranch: main
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: pytorch-hello-world-backend-app/v0.1.0
         gitApplicationPath: components/pytorch-hello-world-backend
         dockerCompose:
             build:
@@ -29,8 +29,8 @@ components:
     -
         kind: Application
         name: frontend
-        gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
-        gitBranch: main
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: pytorch-hello-world-frontend-app/v0.1.0
         gitApplicationPath: components/pytorch-hello-world-frontend
         dockerCompose:
             build:
