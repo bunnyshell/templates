@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  frontend:
+    container_name: ml-hello-world-frontend
+    build:
+      context: ./../
+      dockerfile: .docker/Dockerfile
+    environment:
+      - API_URL=${API_URL:-http://localhost:8080}
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - "80:80"

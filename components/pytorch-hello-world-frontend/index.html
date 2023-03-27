@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Image Recognition Demo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+        <div class="px-4 pb-4 mb-3 mt-2 text-center">
+          <img class="d-block mx-auto mb-4" src="https://www.bunnyshell.com/static/bunnyshell-logo-dark-6a92e8623a3f85e621e2fb59d1166ba2.svg" alt="" width="171" height="33">
+          <h1 class="display-5 fw-bold mb-4"><span class="badge badge-primary">ML</span> Image Recognition Demo</h1>
+          <div class="col-lg-8 mx-auto">
+            <p class="lead mb-4">
+              The application is an end-to-end web-based solution for image classification using the CIFAR-10 dataset.
+              <br>
+              <br>
+              It consists of a frontend built with HTML, CSS, and JavaScript, as well as a backend developed using Python, Flask, and PyTorch.
+            </p>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2>Classify an image</h2>
+            <hr>
+            <p>
+              Please upload an image from the <a target="_blank" href="https://www.kaggle.com/datasets/swaroopkml/cifar10-pngs-in-folders">CIFAR-10 dataset</a>,
+              from the <code>test</code> folder in order to test the output of the model.
+              <br>
+              The Custom CNN is a rudimentary model, just to prove the concept, so please expect modest results. 😊
+            </p>
+            <div class="row mb-3">
+              <div class="col">
+                <select class="custom-select" id="predict-model">
+                  <option value="mobilenet" selected>MobileNet model</option>
+                  <option value="custom">Custom CNN model</option>
+                </select>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" class="custom-file-input" id="file-input">
+              <label class="custom-file-label" for="file-input">Choose file</label>
+            </div>
+
+            <button id="classify-btn" class="btn btn-primary">Classify Image</button> <i id="prediction-status" class="bi"></i>
+            <div id="prediction-container" class="mt-2">
+              <strong>Prediction:</strong> <code id="prediction"></code>
+              <br>
+            </div>
+            <div id="prediction-time-container" class="mt-2">
+              <strong>Time:</strong> <span id="prediction-time"></span> s
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2>Re-train the model</h2>
+            <hr>
+            <p>
+              A model already exists and is ready to be used, but you can also re-train it.
+              Using a higher number of epochs will take longer to compute, but will not necessarily increase prediction accuracy.
+              For resource-consciousness  reasons, you can only train the Custom module.
+            </p>
+            <div class="row mb-3">
+              <div class="col">
+                <select class="custom-select" id="train-model">
+                  <option value="custom" selected>Custom CNN model</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group form-inline">
+              <label for="epochs-input" class="mr-2">Epochs</label>
+              <input type="number" class="form-control custom-number-input short-input" id="epochs-input" value="1" min="1">
+            </div>
+            <button id="train-btn" class="btn btn-primary">Start Training</button> <i id="training-status" class="bi"></i>
+            <div id="training-time-container" class="mt-2">
+              <strong>Training time:</strong> <span id="training-time"></span> s
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
