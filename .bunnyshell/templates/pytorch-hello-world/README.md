@@ -25,7 +25,7 @@ You can create Environments from a [Bunnyshell Template](https://documentation.b
 - Development
 - Staging / Dev testing / End-to-end testing
 
-Development Environments should be created with the `DEBUG` environment variable set to `True` *with hot-reloading) as they can be used for Remote Development.
+Development Environments should be created with the `DEBUG` environment variable set to `True` (to enable hot-reloading) in order to be used for Remote Development.
 
 Staging / Testing Environments should be created with the `DEBUG` environment variable set to `False`, in order to have the application running as it does in production.
 
@@ -45,9 +45,9 @@ You need to ensure that the `dockerCompose.environment.DEBUG` is set to `False` 
 
 The code is ran in a container running in Kubernetes, and you can choose one of two ways to work, depending whether you prefer to keep a local copy of the code or not.
 
-Option 1. You can have the code existing **only in the container** - you will need an IDE capable of connecting via SSH to install a headless IDE in the container, eg. VS Code or the JetBrains suite.
+**Option 1.** You can have the code existing **only in the container** - you will need an IDE capable of connecting via SSH to install a headless IDE in the container, eg. VS Code or the JetBrains suite.
 
-Option 2. You can have the code existing **on your device** and it will be synchronized into the container - any IDE or plain text editor will do.
+**Option 2.** You can have the code existing **on your device** and it will be synchronized into the container - any IDE or plain text editor will do.
 
 📖 For more information on how Remote Development works in Bunnyshell, please see the [dedicated documentation](https://documentation.bunnyshell.com/docs/remote-development).
 
