@@ -6,6 +6,8 @@ RUN chmod +x /usr/share/entrypoint.sh
 
 COPY . /usr/share/nginx/html
 
+WORKDIR /usr/share/nginx/html
+
 ENTRYPOINT ["/usr/share/entrypoint.sh"]
 
 EXPOSE 80
