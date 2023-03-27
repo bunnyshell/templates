@@ -99,7 +99,7 @@ You need to provide 2 additional paths:
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
 
 After starting the Remote Development session, the Bunnyshell CLI opens a shell into the container. From it, you can run any application-related command you would run on local.  
-Please note that **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+Please note that **you must start the application** manually, as you may need to start the application in a number of ways, eg. with or without debugging.
 
 ```
 $ bns remote-development up --component {YOUR_COMPONENT_ID}
@@ -134,7 +134,7 @@ You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-con
 Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.  
 🚀 [See how to configure VS Code for Remote Development via SSH](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
 
-Please note that using the Terminal from the IDE, **you must start the application** manually, as you may needed to start the application in a number of ways, eg. with or without debugging.
+Please note that using the Terminal from the IDE, **you must start the application** manually, as you may need to start the application in a number of ways, eg. with or without debugging.
 
 ```
 /usr/src/app/backend # npm run start:dev
