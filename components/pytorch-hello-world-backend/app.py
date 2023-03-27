@@ -28,6 +28,9 @@ trained_models = {
 allowed_origin = os.environ.get("ALLOWED_ORIGIN", "http://localhost")
 
 app = Flask(__name__)
+if os.environ.get("DEBUG").lower() == 'true':
+    app.debug = True
+
 CORS(app, resources={r"/*": {"origins": allowed_origin}})
 
 
