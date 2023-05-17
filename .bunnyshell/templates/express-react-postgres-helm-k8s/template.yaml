@@ -1,0 +1,17 @@
+name: Express + React + PostgreSQL (Helm + K8s manifests)
+description: This is a boilerplate for creating a new environment using Node, Express, React (with Typescript) and Postgres. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with.
+tags: [ nodejs, express, react, typescript, postgres ]
+icons: [ nodejs, express, react, typescript, postgres ]
+stack:
+  packages:
+    - name: Node.js
+      version: '18'
+    - name: Express
+      version: '4'
+    - name: React
+      version: '17'
+    - name: Typescript
+      version: '4.4'
+    - name: PostgreSQL
+      version: '15.2'
+discoverable: true
