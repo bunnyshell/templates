@@ -12,7 +12,7 @@ components:
   -
     kind: DockerImage
     name: frontend-image
-    gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
     gitBranch: react-books-app/v0.5.0
     gitApplicationPath: /components/react-books-app
     context: /components/react-books-app
@@ -21,7 +21,7 @@ components:
   -
     kind: DockerImage
     name: api-image
-    gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
     gitBranch: express-rest-api/v0.3.0
     gitApplicationPath: /components/express-rest-api
     context: /components/express-rest-api
@@ -55,7 +55,7 @@ components:
   -
     kind: Helm
     name: api
-    gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
     gitBranch: express-rest-api/v0.3.0
     gitApplicationPath: /components/express-rest-api
     runnerImage: 'dtzar/helm-kubectl:3.8.2'
@@ -78,13 +78,13 @@ components:
     destroy:
       - 'helm uninstall api-{{ env.unique }} --namespace {{ env.k8s.namespace }}'
     start:
-      - 'helm upgrade --namespace {{ env.k8s.namespace }} --post-renderer /bns/helpers/helm/add_labels/kustomize --reuse-values --set replicas=1 api-{{ env.unique }} ./helm/backend'
+      - 'helm upgrade --namespace {{ env.k8s.namespace }} --post-renderer /bns/helpers/helm/add_labels/kustomize --reuse-values --set replicas=1 api-{{ env.unique }} ./components/express-rest-api/helm-chart'
     stop:
-      - 'helm upgrade --namespace {{ env.k8s.namespace }} --post-renderer /bns/helpers/helm/add_labels/kustomize --reuse-values --set replicas=0 api-{{ env.unique }} ./helm/backend'
+      - 'helm upgrade --namespace {{ env.k8s.namespace }} --post-renderer /bns/helpers/helm/add_labels/kustomize --reuse-values --set replicas=0 api-{{ env.unique }} ./components/express-rest-api/helm-chart'
   -
     kind: KubernetesManifest
     name: frontend
-    gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
     gitBranch: react-books-app/v0.5.0
     gitApplicationPath: /components/react-books-app
     runnerImage: 'alpine/k8s:1.22.15'
