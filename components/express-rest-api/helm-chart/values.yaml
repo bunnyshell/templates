@@ -1,0 +1,11 @@
+serviceImage: needsimage
+replicas: 1
+ingress:
+  className: nginx
+  host: api.example.com
+postgres:
+  host: db
+  db: bunny_books
+  user: postgres
+  password: pass
+frontendUrl: https://frontend.example.com
