@@ -13,7 +13,7 @@ components:
     kind: DockerImage
     name: frontend-image
     gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
-    gitBranch: demo-books-helm
+    gitBranch: react-books-app/v0.5.0
     gitApplicationPath: /components/react-books-app
     context: /components/react-books-app
     dockerfile: .docker/Dockerfile
@@ -22,7 +22,7 @@ components:
     kind: DockerImage
     name: api-image
     gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
-    gitBranch: demo-books-helm
+    gitBranch: express-rest-api/v0.3.0
     gitApplicationPath: /components/express-rest-api
     context: /components/express-rest-api
     dockerfile: .docker/Dockerfile
@@ -56,7 +56,7 @@ components:
     kind: Helm
     name: api
     gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
-    gitBranch: demo-books-helm
+    gitBranch: express-rest-api/v0.3.0
     gitApplicationPath: /components/express-rest-api
     runnerImage: 'dtzar/helm-kubectl:3.8.2'
     deploy:
@@ -85,7 +85,7 @@ components:
     kind: KubernetesManifest
     name: frontend
     gitRepo: 'https://github.com/sorinbunnyshell/templates.git'
-    gitBranch: demo-books-helm
+    gitBranch: react-books-app/v0.5.0
     gitApplicationPath: /components/react-books-app
     runnerImage: 'alpine/k8s:1.22.15'
     deploy:
