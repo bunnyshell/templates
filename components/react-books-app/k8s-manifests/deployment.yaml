@@ -22,6 +22,9 @@ spec:
             - containerPort: 8080
               protocol: TCP
           imagePullPolicy: IfNotPresent
+          env:
+            - name: REACT_APP_BASE_API
+              value: api.example.com
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
   revisionHistoryLimit: 10
