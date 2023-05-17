@@ -25,7 +25,7 @@ and 1 persistent volume:
 The images for both frontend and backend have 2 possible stages: `dev` and `prod`.
 
 The `dev` stage is suitable for development, as it contains development packages and libraries and has debugging enabled.  
-The `prod` stage is meant for production/staging, as it produces an optimizied image, as lightweight as possible.
+The `prod` stage is meant for production/staging, as it produces an optimized image, as lightweight as possible.
 
 The stage (`dev` or `prod`) can be set from the Environment's configuration (`bunnyshell.yaml`), within each Component's `dockerCompose.build.target` property. The default is `dev`, and it can be changed to `prod` to produce production-like images.
 
