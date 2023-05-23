@@ -85,7 +85,7 @@ components:
     kind: KubernetesManifest
     name: frontend
     gitRepo: 'https://github.com/bunnyshell/templates.git'
-    gitBranch: react-books-app/v0.5.0
+    gitBranch: react-books-app/v0.6.0
     gitApplicationPath: /components/react-books-app
     runnerImage: 'alpine/k8s:1.22.15'
     deploy:
