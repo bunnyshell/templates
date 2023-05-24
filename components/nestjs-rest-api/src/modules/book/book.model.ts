@@ -17,7 +17,7 @@ export const Book = new Schema({
   },
 });
 
-Book.set('toJSON', {
+Book.set("toJSON", {
   virtuals: true
 });
 
