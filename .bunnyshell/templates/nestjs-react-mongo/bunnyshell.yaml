@@ -6,7 +6,7 @@ components:
         kind: Application
         name: api
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: nestjs-rest-api/v0.3.0
+        gitBranch: nestjs-rest-api/v0.3.1
         gitApplicationPath: components/nestjs-rest-api
         dockerCompose:
             build:
