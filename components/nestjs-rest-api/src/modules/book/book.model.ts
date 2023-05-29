@@ -6,7 +6,7 @@ import { Schema, Document } from "mongoose";
 export const Book = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: false, default: null },
-  availabe: { type: Boolean, required: false, default: true },
+  available: { type: Boolean, required: false, default: true },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -17,7 +17,7 @@ export const Book = new Schema({
   },
 });
 
-Book.set('toJSON', {
+Book.set("toJSON", {
   virtuals: true
 });
 
