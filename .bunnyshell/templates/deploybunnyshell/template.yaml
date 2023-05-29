@@ -1,0 +1,13 @@
+name: PyGame
+description: This is a basic example for creating a new environment using PyGame.
+tags: [ pygame, pygame, flask ]
+icons: [ pygame, pygame, flask ]
+stack:
+  packages:
+    - name: Python
+      version: '3.8.13'
+    - name: PyGame
+      version: '2.4.0'
+    - name: Flask
+      version: '2.0.2'
+discoverable: true
