@@ -4,8 +4,12 @@ const process = require("process");
 
 const app = express();
 
+let frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+
 var corsOptions = {
-  origin: process.env.FRONTEND_URL
+  // origin: process.env.FRONTEND_URL
+  // need to strip ending slash from frontendUrl for CORS to work
+  origin: frontendUrl.replace(/\/+$/, '')
 };
 
 app.use(cors(corsOptions));
