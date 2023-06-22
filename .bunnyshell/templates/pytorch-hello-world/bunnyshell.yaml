@@ -13,7 +13,7 @@ components:
                 context: ./components/pytorch-hello-world-backend
                 dockerfile: .docker/Dockerfile
             environment:
-                ALLOWED_ORIGIN: 'https://{{ components.frontend.ingress.hosts[0] }}'
+                ALLOWED_ORIGIN: 'https://{{ components.frontend.ingress.hosts[0].hostname }}'
                 DEBUG: 'True'
             ports:
                 - '8080:5000'

@@ -14,7 +14,7 @@ components:
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
-                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0] }}'
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
                 POSTGRES_DB: bunny_books
                 POSTGRES_HOST: db
                 POSTGRES_PASSWORD: need-to-replace

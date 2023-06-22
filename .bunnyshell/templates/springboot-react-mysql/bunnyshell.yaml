@@ -19,7 +19,7 @@ components:
                 DATABASE_PASSWORD: need-to-replace
                 DATABASE_PORT: '3306'
                 DATABASE_USER: books
-                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0] }}'
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
             ports:
                 - '9000:9000'
         hosts:
