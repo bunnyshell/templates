@@ -20,8 +20,8 @@ components:
                 POSTGRES_DB: '{{ env.vars.DB_NAME }}'
                 POSTGRES_HOST: '{{ components.db-rds.exported.DB_HOST }}'
                 POSTGRES_PASSWORD: '{{ components.db-rds.exported.DB_PASSWORD }}'
-                POSTGRES_USER: '{{ components.db-rds.exported.DB_USERNAME }}'
                 POSTGRES_SSL: 1
+                POSTGRES_USER: '{{ components.db-rds.exported.DB_USERNAME }}'
             ports:
                 - '3080:3080'
         hosts:
