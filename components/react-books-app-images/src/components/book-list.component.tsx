@@ -27,8 +27,8 @@ export default class BookList extends Component<Props, State>{
 
     this.state = {
       // books: [
-      //   {id: 1,title: 'How to train 1', description: 'Hiccup aspires to follow his tribe\'s tradition of becoming a dragon slayer.', available: true}, 
-      //   {id: 2,title: 'How to train 2', description: 'Usodas red novlas to follow his tribe', available: true}, 
+      //   {id: 1,title: 'How to train 1', description: 'Hiccup aspires to follow his tribe\'s tradition of becoming a dragon slayer.', available: true},
+      //   {id: 2,title: 'How to train 2', description: 'Usodas red novlas to follow his tribe', available: true},
       //   {id: 3,title: 'How to train 3', description: 'DesOpdes coma reto cription', available: true}
       // ],
       books: [],
@@ -116,7 +116,7 @@ export default class BookList extends Component<Props, State>{
         {currentBook ? (<div className="col-md-12 mb-5">
             <div className="row books-row">
               <div className="col-3">
-                <div className="cover"/>
+                <div className="cover"><img src={currentBook.image} alt={currentBook.title} /></div>
               </div>
               <div className="col-9">
               <h4>Book</h4>
@@ -188,7 +188,7 @@ export default class BookList extends Component<Props, State>{
                   </div>
 
                 </li>
-              )) : 
+              )) :
               <div className="nobooks-wrap">
                   <img src={nobooks} alt="No books" />
               </div>}

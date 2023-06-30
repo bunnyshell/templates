@@ -29,6 +29,7 @@ export default class Book extends Component<Props, State> {
       currentBook: {
         id: null,
         title: "",
+        image: "",
         description: "",
         available: false,
       },
@@ -81,6 +82,7 @@ export default class Book extends Component<Props, State> {
     const data: IBookData = {
       id: this.state.currentBook.id,
       title: this.state.currentBook.title,
+      image: this.state.currentBook.image,
       description: this.state.currentBook.description,
       available: status,
     };
@@ -128,7 +130,7 @@ export default class Book extends Component<Props, State> {
         this.setState({
           message: "The Book was deleted successfully",
         });
-        
+
         this.props.history.push("/books");
         toast.success(`The Book was deleted successfully`);
       })

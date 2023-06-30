@@ -26,6 +26,7 @@ export default class BookAdd extends Component<Props, State> {
     this.state = {
       id: null,
       title: "",
+      image: "",
       description: "",
       available: false,
       submitted: false
@@ -55,6 +56,7 @@ export default class BookAdd extends Component<Props, State> {
         this.setState({
           id: response.data.id,
           title: response.data.title,
+          image: response.data.image,
           description: response.data.description,
           available: response.data.available,
           submitted: false
@@ -72,6 +74,7 @@ export default class BookAdd extends Component<Props, State> {
     this.setState({
       id: null,
       title: "",
+      image: "",
       description: "",
       available: false,
       submitted: false
