@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app:
+    container_name: react-books-app
+    build:
+      context: ./../
+      dockerfile: .docker/Dockerfile
+      target: ${FRONTEND_BUILD_TARGET:-dev} # use "prod" for production
+    environment:
+      REACT_APP_BASE_API: ${BACKEND_URL:-http://localhost:9091}
+    volumes:
+      - ./../:/var/www/frontend:delegated
+    ports:
+      - "8080:8080"
