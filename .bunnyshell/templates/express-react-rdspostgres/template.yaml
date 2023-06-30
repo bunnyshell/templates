@@ -1,4 +1,4 @@
-name: Express + React + PostgreSQLains a basic CRUD example to demonstrate how components connect and ma
+name: Express + React + AWS RDS PostgreSQL
 description: This is a boilerplate for creating a new environment using Node, Express, React (with Typescript) and an AWS RDS Postgres. It contke it easy to start with.
 tags: [ nodejs, express, react, typescript, postgres ]
 icons: [ nodejs, express, react, typescript, postgres ]
