@@ -1,0 +1,107 @@
+kind: Environment
+name: Express / React / AWS RDS PostgreSQL boilerplate
+type: primary
+environmentVariables:
+    DB_NAME: bunny_books
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: express-rest-api/v0.4.0
+        gitApplicationPath: components/express-rest-api
+        dockerCompose:
+            build:
+                context: ./components/express-rest-api
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
+                POSTGRES_DB: '{{ env.vars.DB_NAME }}'
+                POSTGRES_HOST: '{{ components.db-rds.exported.DB_HOST }}'
+                POSTGRES_PASSWORD: '{{ components.db-rds.exported.DB_PASSWORD }}'
+                POSTGRES_USER: '{{ components.db-rds.exported.DB_USERNAME }}'
+                POSTGRES_SSL: 1
+            ports:
+                - '3080:3080'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 3080
+    -
+        kind: Terraform
+        name: db-rds
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: terraform-aws-rds/v0.1.0
+        gitApplicationPath: /components/tf-aws-rds
+        runnerImage: 'hashicorp/terraform:1.5.1'
+        deploy:
+            - 'cd components/tf-aws-rds'
+            - '/bns/helpers/terraform/get_managed_backend > zz_backend_override.tf'
+            - 'terraform init -input=false -no-color'
+            - |
+                terraform apply -input=false -auto-approve -no-color \
+                  -var="prefix=bns-{{ env.unique }}" \
+                  -var="instance_class=db.t3.micro" \
+                  -var="allocated_storage=20" \
+                  -var="engine=postgres" \
+                  -var="engine_version=15.3" \
+                  -var="db_name={{ env.vars.DB_NAME }}" \
+                  -var="username=bunnyshell" \
+                  -var="db_port=5432" \
+                  -var="vpc_cidr=10.0.0.0/16" \
+                  -var='allowed_cidrs=["54.246.59.74/32", "34.83.72.16/32"]'\
+                  -var="publicly_accessible=true"
+            - 'BNS_TF_STATE_LIST=`terraform show -json`'
+            - |
+                DB_HOST=$(terraform output --raw rds_endpoint | awk -F: '{print $1}')
+            - 'DB_PORT=`terraform output --raw rds_port`'
+            - 'DB_USERNAME=`terraform output --raw rds_username`'
+            - 'DB_PASSWORD=`terraform output --raw rds_password`'
+        destroy:
+            - 'cd components/tf-aws-rds'
+            - '/bns/helpers/terraform/get_managed_backend > zz_backend_override.tf'
+            - 'terraform init -input=false -no-color'
+            - |
+                terraform destroy -input=false -auto-approve -no-color \
+                  -var="prefix=bns-{{ env.unique }}" \
+                  -var="instance_class=db.t3.micro" \
+                  -var="allocated_storage=20" \
+                  -var="engine=postgres" \
+                  -var="engine_version=15.3" \
+                  -var="db_name={{ env.vars.DB_NAME }}" \
+                  -var="username=bunnyshell" \
+                  -var="db_port=5432" \
+                  -var="vpc_cidr=10.0.0.0/16" \
+                  -var='allowed_cidrs=["54.246.59.74/32", "34.83.72.16/32"]'\
+                  -var="publicly_accessible=true"
+        exportVariables:
+            - DB_HOST
+            - DB_PORT
+            - DB_USERNAME
+            - DB_PASSWORD
+        environment:
+            AWS_ACCESS_KEY_ID: your-aws-access-key-id
+            AWS_REGION: your-aws-region
+            AWS_SECRET_ACCESS_KEY: your-aws-secret-access-key
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: react-books-app/v0.5.0
+        gitApplicationPath: components/react-books-app
+        dockerCompose:
+            build:
+                context: ./components/react-books-app
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
