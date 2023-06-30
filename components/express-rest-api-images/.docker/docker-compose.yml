@@ -14,6 +14,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=need-to-replace
       - FRONTEND_URL=${FRONTEND_URL-http://localhost:8080}
+      - AWS_S3_ACCESS_KEY_ID=${AWS_S3_ACCESS_KEY_ID-replace-access-key}
+      - AWS_S3_SECRET_ACCESS_KEY=${AWS_S3_SECRET_ACCESS_KEY-replace-secret}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME-my-bucket}
+      - AWS_S3_BUCKET_REGION=${AWS_S3_BUCKET_REGION-us-west-1}
     ports:
       - "3080:3080"
     depends_on:

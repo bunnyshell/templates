@@ -1,9 +1,17 @@
 const db = require("../models");
 const Book = db.books;
 const Op = db.Sequelize.Op;
+const AWS = require("aws-sdk");
 
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+})
 
 exports.create = (req, res) => {
+  // import fetch from "node-fetch";
+  const nodeFetch = import("node-fetch");
+
   if (!req.body.title) {
     res.status(400).send({
       message: "The title can not be empty"
@@ -19,7 +27,30 @@ exports.create = (req, res) => {
 
   Book.create(book)
     .then(data => {
-      res.send(data);
+      // get a random image, different on each URL call
+      const imageURL = 'https://picsum.photos/237/132';
+
+      // upload
+      nodeFetch.then(fetch => {
+        return fetch.default(imageURL);
+      }).then(res => {
+        return res.buffer();
+      }).then(blob => {
+        s3.upload({
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Key: data.id + '.jpg',
+          Body: blob,
+          ACL: 'public-read',
+        }, function(s3Err, data) {
+          if (data) {
+            console.log('S3 upload successful', data);
+          }
+          if (s3Err) {
+            console.log('Error uploading to S3: ', s3Err);
+          }
+          res.send(data);
+        });
+      });
     })
     .catch(err => {
       res.status(500).send({
@@ -35,6 +66,7 @@ exports.findAll = (req, res) => {
 
   Book.findAll({ where: condition })
     .then(data => {
+      data.forEach((book, index) => data[index].dataValues.image = getImageUrlById(book.id));
       res.send(data);
     })
     .catch(err => {
@@ -51,6 +83,7 @@ exports.findOne = (req, res) => {
   Book.findByPk(id)
     .then(data => {
       if (data) {
+        data.image = getImageUrlById(data.id);
         res.send(data);
       } else {
         res.status(404).send({
@@ -132,6 +165,7 @@ exports.deleteAll = (req, res) => {
 exports.findAllAvailable = (req, res) => {
   Book.findAll({ where: { available: true } })
     .then(data => {
+      data.forEach((book, index) => data[index].dataValues.image = getImageUrlById(book.id));
       res.send(data);
     })
     .catch(err => {
@@ -141,3 +175,7 @@ exports.findAllAvailable = (req, res) => {
       });
     });
 };
+
+function getImageUrlById(id) {
+  return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_BUCKET_REGION}.amazonaws.com/${id}.jpg`;
+}
