@@ -1,0 +1,104 @@
+kind: Environment
+name: Express / React / PostgreSQL / S3 boilerplate
+type: primary
+environmentVariables:
+    AWS_ACCESS_KEY_ID: your-key
+    AWS_REGION: your-region
+    AWS_SECRET_ACCESS_KEY: your-secret
+    POSTGRES_DB: bunny_books
+    POSTGRES_PASSWORD: mysecretpassword
+    POSTGRES_USER: postgres
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: express-rest-api/v0.2.0
+        gitApplicationPath: components/express-rest-api
+        dockerCompose:
+            build:
+                context: ./components/express-rest-api
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                AWS_S3_ACCESS_KEY_ID: '{{ env.vars.AWS_ACCESS_KEY_ID }}'
+                AWS_S3_BUCKET_NAME: '{{ components.s3-bucket.exported.BUCKET_NAME }}'
+                AWS_S3_BUCKET_REGION: '{{ components.s3-bucket.exported.BUCKET_REGION }}'
+                AWS_S3_SECRET_ACCESS_KEY: '{{ env.vars.AWS_SECRET_ACCESS_KEY }}'
+                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
+                POSTGRES_HOST: db
+            ports:
+                - '3080:3080'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 3080
+    -
+        kind: Database
+        name: db
+        dockerCompose:
+            environment:
+                POSTGRES_DB: bunny_books
+                POSTGRES_PASSWORD: need-to-replace
+                POSTGRES_USER: postgres
+            image: postgres:15.2-alpine3.17
+            ports:
+                - '5432:5432'
+        volumes:
+            -
+                name: data-volume
+                mount: /var/lib/postgresql/data
+                subPath: ''
+    -
+        kind: Application
+        name: app
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: react-books-app/v0.5.0
+        gitApplicationPath: components/react-books-app
+        dockerCompose:
+            build:
+                context: ./components/react-books-app
+                dockerfile: .docker/Dockerfile
+                target: dev
+            environment:
+                REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
+            ports:
+                - '8080:8080'
+        hosts:
+            -
+                hostname: 'app-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+    -
+        kind: Terraform
+        name: s3-bucket
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: terraform-aws-s3/v0.1.0
+        gitApplicationPath: /components/tf-aws-s3
+        runnerImage: 'hashicorp/terraform:1.5.1'
+        deploy:
+            - 'cd components/tf-aws-s3'
+            - '/bns/helpers/terraform/get_managed_backend > zz_backend_override.tf'
+            - 'terraform init -input=false -no-color'
+            - 'terraform apply -var "bucket_name=demo-{{ env.unique }}" -input=false -auto-approve -no-color'
+            - 'BNS_TF_STATE_LIST=`terraform show -json`'
+            - 'BUCKET_NAME=`terraform output --raw s3_bucket_name`'
+            - 'BUCKET_REGION=`terraform output --raw s3_bucket_region`'
+        destroy:
+            - 'cd components/tf-aws-s3'
+            - '/bns/helpers/terraform/get_managed_backend > zz_backend_override.tf'
+            - 'terraform init -input=false -no-color'
+            - 'terraform destroy -var "bucket_name=demo-{{ env.unique }}" -input=false -auto-approve -no-color'
+        exportVariables:
+            - BUCKET_NAME
+            - BUCKET_REGION
+        environment:
+            AWS_ACCESS_KEY_ID: your-key
+            AWS_REGION: your-region
+            AWS_SECRET_ACCESS_KEY: your-secret
+volumes:
+    -
+        name: data-volume
+        size: 1Gi
+        type: disk
