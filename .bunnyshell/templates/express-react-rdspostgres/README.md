@@ -16,7 +16,7 @@ In order to create the AWS RDS instance, you will need to fill in the AWS creden
 ⚠️ **You also need to modify the list of allowed IPs / CIDRs** in order to allow the backend application to have connectivity to your database. By default, they are set for Bunnyshell's managed cluster.  
 You can do this from the `deploy` step of the `db-rds` component, from the `allowed_cidrs` variable passed on to `terraform apply`.
 
-📖 Please also read the [AWS RDS Terraform component's README](../../../components/tf-aws-rds/README.md) for more details on how the module can be used. 
+📖 Please also read the [AWS RDS Terraform component's README](https://github.com/bunnyshell/templates/blob/main/components/tf-aws-rds/README.md) for more details on how the module can be used. 
 
 &nbsp;
 
