@@ -2,7 +2,7 @@ kind: Environment
 name: Express / React / AWS RDS PostgreSQL boilerplate
 type: primary
 environmentVariables:
-    DB_NAME: bunny_books
+    DB_NAME: books
 components:
     -
         kind: Application
