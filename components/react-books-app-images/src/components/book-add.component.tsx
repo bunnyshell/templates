@@ -48,6 +48,7 @@ export default class BookAdd extends Component<Props, State> {
   saveBook() {
     const data: IBookData = {
       title: this.state.title,
+      image: this.state.image,
       description: this.state.description
     };
 

@@ -13,11 +13,11 @@ components:
         kind: Application
         name: api
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: express-rest-api/v0.2.0
-        gitApplicationPath: components/express-rest-api
+        gitBranch: express-rest-api-images/v0.4.0
+        gitApplicationPath: components/express-rest-api-images
         dockerCompose:
             build:
-                context: ./components/express-rest-api
+                context: ./components/express-rest-api-images
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
@@ -38,10 +38,6 @@ components:
         kind: Database
         name: db
         dockerCompose:
-            environment:
-                POSTGRES_DB: bunny_books
-                POSTGRES_PASSWORD: need-to-replace
-                POSTGRES_USER: postgres
             image: postgres:15.2-alpine3.17
             ports:
                 - '5432:5432'
@@ -54,11 +50,11 @@ components:
         kind: Application
         name: app
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: react-books-app/v0.5.0
-        gitApplicationPath: components/react-books-app
+        gitBranch: react-books-app-images/v0.6.0
+        gitApplicationPath: components/react-books-app-images
         dockerCompose:
             build:
-                context: ./components/react-books-app
+                context: ./components/react-books-app-images
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
@@ -93,10 +89,6 @@ components:
         exportVariables:
             - BUCKET_NAME
             - BUCKET_REGION
-        environment:
-            AWS_ACCESS_KEY_ID: your-key
-            AWS_REGION: your-region
-            AWS_SECRET_ACCESS_KEY: your-secret
 volumes:
     -
         name: data-volume
