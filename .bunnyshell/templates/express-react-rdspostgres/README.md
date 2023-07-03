@@ -20,6 +20,8 @@ You can do this from the `deploy` step of the `db-rds` component, from the `allo
 
 &nbsp;
 
+# Environment overview
+
 ## Container images
 
 The images for both frontend and backend have 2 possible stages: `dev` and `prod`.
@@ -67,7 +69,6 @@ bns remote-development up --component {COMPONENT_ID}
 ```
 
 The exact command can be copied from the UI: go to the Environment details screen, select the desired Component, then *Remote Development*. In case you do not specify the `component` flag, the CLI will guide you through using a wizard.
-
 
 You need to provide 2 additional paths:
 - the *local path*, for your local code files

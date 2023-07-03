@@ -17,6 +17,8 @@ In order to create the AWS S3 bucket, you will need to fill in the AWS credentia
 
 &nbsp;
 
+# Environment overview
+
 ## Container images
 
 The images for both frontend and backend have 2 possible stages: `dev` and `prod`.
