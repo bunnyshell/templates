@@ -4,22 +4,11 @@ This Environment [Template](https://documentation.bunnyshell.com/docs/templates-
 
 The template provides the Bunnyshell configuration composed of 3 Components (frontend + backend + database) and the CRUD application that demonstrates how the components work together to form an environment.
 
-You can extend the template by further adding Components, be them more APIs or other services, such as queues, caches, block storage etc.
+An [Environment in Bunnyshell](https://documentation.bunnyshell.com/docs/environments) is a user-defined group that brings together applications and all of the services and databases those applications require.
 
 &nbsp;
 
 # Environment overview
-
-An [Environment in Bunnyshell](https://documentation.bunnyshell.com/docs/environments) is a user-defined group that brings together applications and all of the services and databases those applications require.
-
-This Environment Template contains 3 components:
-- `frontend` for frontend, based on a `node` image
-- `symfony` for backend, based on a `php-fpm` image, also using an `nginx` based image as a sidecar
-- `database` using a `mysql` image
-
-and 2 persisnet volumes:
-- `database-data`
-- `symfony-cache`
 
 ## Container images
 
@@ -35,18 +24,10 @@ The stage (`dev` or `prod`) can be set from the Environment's configuration (`bu
 # How to use this Template
 
 You can create Environments from a [Bunnyshell Template](https://documentation.bunnyshell.com/docs/templates-what-are-templates); these Environments can have multiple purposes:
-- Development
-- Staging / Dev testing / End-to-end testing
-
-Development Environments should be created with the `dev` target for images (see "Container images") and can be used for Remote Development.
-
-Staging / Testing Environments should be created with the `prod` target for images, in order to have the application running as it does in production.
 
 &nbsp;
 
 ## Staging / Testing
-
-For staging / testing purposes, the Environments just need to be deployed.
 
 You need to ensure that the `dockerCompose.build.target` is set to `prod` for all the Components, and then [deploy the Environment](https://documentation.bunnyshell.com/docs/environment-workflows-deploy).
 
@@ -56,11 +37,7 @@ You need to ensure that the `dockerCompose.build.target` is set to `prod` for al
 
 [Remote Development](https://documentation.bunnyshell.com/docs/remote-development) allows you to develop directly in a cloud environment, therefore eliminating all inconsistencies and approximations of traditional local environments.
 
-The code is ran in a container running in Kubernetes, and you can choose one of two ways to work, depending whether you prefer to keep a local copy of the code or not.
-
-1. You can have the code existing **only in the container** - you will need an IDE capable of connecting via SSH to install a headless IDE in the container, eg. VS Code or the JetBrains suite.
-
-2. You can have the code existing **on your device** and it will be synchronized into the container - any IDE or plain text editor will do.
+The code is executed in a container running in Kubernetes, while being synchronized real-time with your local folders.
 
 📖 For more information on how Remote Development works in Bunnyshell, please see the [dedicated documentation](https://documentation.bunnyshell.com/docs/remote-development).
 
@@ -68,36 +45,24 @@ The code is ran in a container running in Kubernetes, and you can choose one of 
 
 &nbsp;
 
-### Start a Remote Development session
-
-In order to start a Remote Development session, you must run the dedicated command from the CLI:
-```
-bns remote-development up
-```
-
-The CLI will present a wizard, so you can choose your Environment first, then the Component on which you want to develop on.  
-You can also pass on the Component ID, to skip the wizard. The full command can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*.
-
-💡 When typing, you can use the shorter alias: `bns rdev up`
-
-🧱 Please note that starting a Remote Development session requires the *Remote Development* setting to be *ON* for the Environment (*ON* is the default value).
-
-You need to choose the way you wish to work with files, before starting the Remote Development session.
+You need to ensure that the `dockerCompose.build.target` is set to `dev` for all the Components, and then [deploy the Environment](https://documentation.bunnyshell.com/docs/environment-workflows-deploy).
 
 &nbsp;
 
-#### Working with code from your machine
+### Start a Remote Development session
 
-When working with code stored locally (the default mode), you just need to run:
+In order to start a Remote Development session, you must run a command from the CLI:
 ```
-bns remote-development up
+bns remote-development up --component {COMPONENT_ID}
 ```
+
+The exact command can be copied from the UI: go to the Environment details screen, select the desired Component, then *Remote Development*. In case you do not specify the `component` flag, the CLI will guide you through using a wizard.
 
 You need to provide 2 additional paths:
 - the *local path*, for your local code files
 - the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `symfony` application, it is `/var/www`.
 
-💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively.
+💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively. You can also define [the remote development configuration](https://documentation.bunnyshell.com/docs/remote-development-sharing-configuration) in `bunnyshell.yaml`.
 
 After starting the Remote Development session, the Bunnyshell CLI opens a shell into the container. From it, you can run any application-related command you would run on local.  
 Please note that **you must start the php-fpm process** manually.
@@ -112,49 +77,15 @@ $ bns remote-development up --component {YOUR_COMPONENT_ID}
 📖 For more information on starting a remote Development session, please see:
 - [How to Start Remote Development](https://documentation.bunnyshell.com/docs/remote-development-start)
   - [with local files](https://documentation.bunnyshell.com/docs/remote-development-local-files)
-
-&nbsp;
-
-#### Working with code from the container
-
-When working directly with the files from the container, you need to disable the synchronization of files, by adding the option `--sync-mode none` to the command. Usually, since you'll be using your IDE to connect to the container, you will also want to pass in `--no-tty`, to disable leaving an SSH terminal into the container, but this is optional and depends on your preferences.
-
-You need to provide the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `symfony` application, it is `/var/www`.
-
-💡 The wizard will require this from you, but you can also provide it as an option, using `-r`.
-
-```
-bns remote-development up --sync-mode none --no-tty
-? Remote Path /var/www
-Pod is ready for Remote Development.
-You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
-```
-
-💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
-
-Using the SSH config file, you can now configure your IDE to connect remotely to the container, via SSH.  
-🚀 [See how to configure VS Code for Remote Development via SSH](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
-
-Please note that using the Terminal from the IDE, **you must start the php-fpm process** manually.
-
-```
-/var/www # php-fpm
-```
+  - [with remote files](https://documentation.bunnyshell.com/docs/remote-development-remote-files)
 
 &nbsp;
 
 ### Stop a Remote Development session
 
-In order to stop a Remote Development session, you must run the dedicated command from the CLI:
+In order to stop a Remote Development session, you must run the complementary command for `up` from the CLI:
 ```
-bns remote-development down
-```
-
-The CLI will present a wizard, so you can choose your Environment first, then the Component for which you want to stop the session for.  
-You can also pass on the Component ID, to skip the wizard. The full command for starting a session can be copied from the UI: go to the Environment details screen, click the desired Component, then expand the *Component Actions* and select *Remote Development*. Then, you just need to replace `up` with `down.
-
-```
- bns remote-development down --component {YOUR_COMPONENT_ID}
+bns remote-development down --component {YOUR_COMPONENT_ID}
 ```
 
 📖 For more information on stopping a remote Development session, please see:
@@ -170,7 +101,7 @@ The configuration differs based on the way you chose to work, and also on your I
 
 &nbsp;
 
-#### Debugging backend with code from your machine
+#### Debugging backend
 
 The image is [already prepared for debugging](https://documentation.bunnyshell.com/docs/remote-development-debugging-php#prepare-the-container-image) with Xdebug.
 
@@ -185,47 +116,17 @@ When debugging with local code, you need to:
 
 For the `symfony` service, you need to run:
 ```
-$ bns remote-development up --port-forward "9003<9003"
+$ bns remote-development up --component {YOUR_COMPONENT_ID} --port-forward "9003<9003"
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
 ? Remote Path /var/www
 /var/www # php-fpm
 ```
-💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
 
 You can now add breakpoints and start debugging.
 
 📖 For more information on debugging locally, please see:
 - [Debugging locally with port forwarding](https://documentation.bunnyshell.com/docs/remote-development-debugging)
   - [Debugging PHP](https://documentation.bunnyshell.com/docs/remote-development-debugging-php) for `symfony`
-
-&nbsp;
-
-#### Debugging backend with code from the container 
-
-When debugging with remote code, you need to:
-1. have the necessary libraries installed in the container image: see [Prepare the container image](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-the-container-image)
-2. install the necessary IDE extensions (if any): see [Prepare VS Code Extensions](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-pre-requisites#prepare-vs-code-extensions)
-3. start the Remote Development session with no code sync, `--sync-mode none` and (optionally) without an interactive shell once the preparation is done `--no-tty` (See "Working with code from the container" from the current Template description)
-4. [configure the IDE SSH connection](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-connection)
-5. [start the debug process from your IDE](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code-debug-php)
-
-For the `symfony` service, you need to run:
-```
-$ bns remote-development up --sync-mode none --no-tty
-? Remote Path /var/www
-Pod is ready for Remote Development.
-You can find the SSH Config file in /Users/myuser/.bunnyshell/remote-dev/ssh-config
-```
-💡 Remember that you can pass in the optional flag `--component {YOUR_COMPONENT_ID}` to skip running the wizard to choose the Component.
-
-And within the IDE terminal, you need to start the `php-fpm` service:
-```
-/var/www # php-fpm
-```
-
-You can now add breakpoints and start debugging.
-
-📖 For more information on debugging remotely, please see:
 - [Debugging remotely with VS Code](https://documentation.bunnyshell.com/docs/remote-development-configure-vs-code)
 
 &nbsp;
