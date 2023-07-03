@@ -97,7 +97,7 @@ components:
       - 'sed -i "s/ingressClassName: nginx/ingressClassName: bns-nginx/g" ingress.yaml'
       - 'kubectl apply -k .'
     destroy:
-      - 'cd manifests/frontend'
+      - 'cd ./components/react-books-app/k8s-manifests'
       - 'kustomize create --autodetect --recursive --namespace {{ env.k8s.namespace }}'
       - 'kubectl delete -k .'
     start:
