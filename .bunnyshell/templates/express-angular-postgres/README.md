@@ -60,7 +60,7 @@ The exact command can be copied from the UI: go to the Environment details scree
 
 You need to provide 2 additional paths:
 - the *local path*, for your local code files
-- the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `backend` application, it is `/usr/src/app/backend`.
+- the *remote path*: the path where code files are located within the container (you can find this out from the `Dockerfile`, it's in the `WORKDIR` statement); for the `api` application, it is `/usr/src/app/backend`.
 
 💡 The wizard will require these from you, but you can also provide them as options, `-l` and `-r` respectively. You can also define [the remote development configuration](https://documentation.bunnyshell.com/docs/remote-development-sharing-configuration) in `bunnyshell.yaml`.
 
