@@ -1,0 +1,21 @@
+name: Magento 2.4
+description: Magento 2.4 Community Edition, with a complete stack.
+tags: [ magento, php, mysql, elasticsearch, redis, ecommerce ]
+icons: [ magento, php, mysql, elasticsearch, redis ]
+stack:
+  packages:
+    - name: Magento
+      version: '2.4.6'
+    - name: PHP
+      version: '8.1'
+    - name: nginx
+      version: '1.19'
+    - name: MySQL
+      version: '8.0'
+    - name: Elasticsearch
+      version: '7.11'
+    - name: Redis
+      version: '6.2'
+    - name: Varnish
+      version: '7.1'
+discoverable: true
