@@ -63,7 +63,7 @@ Please note that **you must start the php-fpm process** manually.
 $ bns remote-development up --component {YOUR_COMPONENT_ID}
 ? Local Path {YOUR_OWN_LOCAL_PATH}}
 ? Remote Path /app
-/var/www # php-fpm
+/var/www # php-fpm -R
 ```
 
 📖 For more information on starting a remote Development session, please see:
