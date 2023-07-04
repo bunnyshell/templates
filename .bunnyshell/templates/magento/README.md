@@ -6,6 +6,12 @@ The template provides the Bunnyshell configuration for a Magento-based environme
 
 An [Environment in Bunnyshell](https://documentation.bunnyshell.com/docs/environments) is a user-defined group that brings together applications and all of the services and databases those applications require.
 
+## Template specifics
+
+In order to download Magento, you will need to fill in the Magento keys, which you can get from your Adobe account:
+- `MAGE_PRIVKEY`
+- `MAGE_PUBKEY`
+
 &nbsp;
 
 # Environment overview

@@ -11,7 +11,7 @@ environmentVariables:
   MAGE_BACKEND_FRONTNAME: bns
   MAGE_BASE_URL: 'http://{{ components.magento.ingress.hosts[0].url }}'
   MAGE_BASE_URL_SECURE: 'https://{{ components.magento.ingress.hosts[0].url }}'
-  MAGE_CURRENCY: RON
+  MAGE_CURRENCY: USD
   MAGE_DB_HOST: db
   MAGE_DB_NAME: '{{ components.db.vars.MYSQL_DATABASE }}'
   MAGE_DB_PASSWORD: '{{ components.db.vars.MYSQL_PASSWORD }}'
@@ -23,6 +23,8 @@ environmentVariables:
   MAGE_INIT_PARAMS: MAGE_MODE=developer
   MAGE_KEY: abcdefghijklmnopqrstuvwxyzABCDEF
   MAGE_LANGUAGE: en_US
+  MAGE_PRIVKEY: replace-with-your-credentials
+  MAGE_PUBKEY: replace-with-your-credentials
   MAGE_SEARCH_ENGINE: elasticsearch7
   MAGE_TIMEZONE: Europe/Bucharest
   MAGE_USE_REWRITES: '1'
@@ -167,12 +169,12 @@ components:
   -
     kind: Application
     name: magento
-    gitRepo: 'https://github.com/sorinbunnyshell/magento.git'
-    gitBranch: main
-    gitApplicationPath: /
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
+    gitBranch: magento/v0.1.0
+    gitApplicationPath: /components/magento
     dockerCompose:
       build:
-        context: .
+        context: ./components/magento
         dockerfile: ./.docker/php/Dockerfile
       environment:
         MAGENTO_RUN_MODE: developer
@@ -304,7 +306,7 @@ components:
 volumes:
   -
     name: elasticsearch-data
-    size: 1Gi
+    size: 200Mi
     type: disk
   -
     name: mysql-data
@@ -312,21 +314,21 @@ volumes:
     type: disk
   -
     name: redis-data
-    size: 1Gi
+    size: 100Mi
     type: disk
   -
     name: varnish-data
-    size: 1Gi
+    size: 100Mi
     type: disk
   -
     name: mailhog-data
-    size: 1Gi
+    size: 100Mi
     type: disk
   -
     name: public-media
-    size: 2Gi
+    size: 1Gi
     type: network
   -
     name: public-static
-    size: 1Gi
+    size: 100Mi
     type: network
