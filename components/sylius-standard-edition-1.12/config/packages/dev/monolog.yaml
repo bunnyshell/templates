@@ -1,0 +1,9 @@
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: "php://stdout"
+            level: debug
+        firephp:
+            type: firephp
+            level: info
