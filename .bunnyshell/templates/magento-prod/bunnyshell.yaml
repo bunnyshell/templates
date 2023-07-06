@@ -173,7 +173,7 @@ components:
     gitApplicationPath: /components/magento-2.4-ce
     dockerCompose:
       build:
-        context: ./components/magento
+        context: ./components/magento-2.4-ce
         dockerfile: ./.docker/php/Dockerfile
       environment:
         MAGENTO_RUN_MODE: production
