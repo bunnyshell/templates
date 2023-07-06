@@ -6,6 +6,11 @@ The template provides the Bunnyshell configuration for a Sylius-based environmen
 
 An [Environment in Bunnyshell](https://documentation.bunnyshell.com/docs/environments) is a user-defined group that brings together applications and all of the services and databases those applications require.
 
+## Template specifics
+
+The template is configured so it inserts some demo data.  
+After the first deployment, you should set the evnironment variable `LOAD_FIXTURES` to `0` on the component `init-migrations`.
+
 &nbsp;
 
 # Environment overview

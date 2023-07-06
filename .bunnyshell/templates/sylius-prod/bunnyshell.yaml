@@ -95,7 +95,7 @@ components:
         APP_SECRET: EDITME
         BASE_DOMAIN: '{{ components.php.ingress.hosts[0] }}'
         DATABASE_URL: 'mysql://{{ env.vars.MYSQL_USER }}:{{ env.vars.MYSQL_PASSWORD }}@mysql/{{ env.vars.MYSQL_DATABASE }}?serverVersion=8.0'
-        LOAD_FIXTURES: '0'
+        LOAD_FIXTURES: '1'
         PHP_DATE_TIMEZONE: UTC
     volumes:
       -
