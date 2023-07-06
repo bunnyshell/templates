@@ -170,7 +170,7 @@ components:
     kind: Application
     name: magento
     gitRepo: 'https://github.com/bunnyshell/templates.git'
-    gitBranch: magento/v0.1.0
+    gitBranch: magento-prod-2.4-ce/v0.1.0
     gitApplicationPath: /components/magento
     dockerCompose:
       build:
