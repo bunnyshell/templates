@@ -1,5 +1,5 @@
 kind: Environment
-name: 'Meet Magento 23'
+name: 'Magento 2.4 CE'
 type: primary
 urlHandle: magento
 environmentVariables:
@@ -36,7 +36,7 @@ components:
     name: build
     dockerCompose:
       environment:
-        MAGENTO_RUN_MODE: developer
+        MAGENTO_RUN_MODE: production
         PHP_EXTENSIONS: 'bcmath bz2 calendar exif gd gettext intl mysqli pcntl pdo_mysql soap sockets sysvmsg sysvsem sysvshm opcache zip sodium redis xsl blackfire'
       image: 'magento/magento-cloud-docker-php:8.1-cli-1.3.2'
       command:
@@ -114,7 +114,7 @@ components:
     name: deploy
     dockerCompose:
       environment:
-        MAGENTO_RUN_MODE: developer
+        MAGENTO_RUN_MODE: production
         PHP_EXTENSIONS: 'bcmath bz2 calendar exif gd gettext intl mysqli pcntl pdo_mysql soap sockets sysvmsg sysvsem sysvshm opcache zip sodium redis xsl blackfire'
       hostname: deploy.magento2.docker
       image: 'magento/magento-cloud-docker-php:8.1-cli-1.3.2'
@@ -142,7 +142,7 @@ components:
         FPM_HOST: magento
         FPM_PORT: '9000'
         HTTPS_METHOD: noredirect
-        MAGENTO_RUN_MODE: developer
+        MAGENTO_RUN_MODE: production
         PHP_EXTENSIONS: 'bcmath bz2 calendar exif gd gettext intl mysqli pcntl pdo_mysql soap sockets sysvmsg sysvsem sysvshm opcache zip sodium redis xsl blackfire'
         UPSTREAM_HOST: 127.0.0.1
         VIRTUAL_HOST: 'magento-{{ env.base_domain }}'
@@ -177,7 +177,7 @@ components:
         context: ./components/magento
         dockerfile: ./.docker/php/Dockerfile
       environment:
-        MAGENTO_RUN_MODE: developer
+        MAGENTO_RUN_MODE: production
         PHP_EXTENSIONS: 'bcmath bz2 calendar exif gd gettext intl mysqli pcntl pdo_mysql soap sockets sysvmsg sysvsem sysvshm opcache zip sodium redis xsl blackfire'
       ports:
         - '9000:9000'
