@@ -1,7 +1,6 @@
 kind: Environment
 name: 'Magento 2.4 CE'
 type: primary
-urlHandle: magento
 environmentVariables:
   MAGE_ADMIN_EMAIL: hello@bunnyshell.com
   MAGE_ADMIN_FIRSTNAME: Magento
