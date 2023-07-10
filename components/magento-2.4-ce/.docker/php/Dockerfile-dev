@@ -72,6 +72,9 @@ RUN if [ ! -z "${CRONTAB}" ]; then echo "${CRONTAB}" > /etc/cron.d/magento && to
 
 COPY . .
 
+COPY .docker/php/readiness-probe.sh /readiness-probe.sh
+RUN chmod +x /readiness-probe.sh
+
 COPY .docker/php/development-entrypoint.sh /development-entrypoint.sh
 RUN chmod +x /development-entrypoint.sh
 
