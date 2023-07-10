@@ -31,7 +31,8 @@ RUN apt-get update \
   redis-tools \
   unzip \
   vim \
-  openssh-client
+  openssh-client \
+  lsof
 
 
 # Install PyYAML
