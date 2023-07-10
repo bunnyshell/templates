@@ -1,5 +1,5 @@
 kind: Environment
-name: 'Magento 2.4 CE'
+name: 'Magento 2.4 CE - Prod'
 type: primary
 environmentVariables:
   MAGE_ADMIN_EMAIL: hello@bunnyshell.com
