@@ -78,9 +78,6 @@ components:
       labels:
         kompose.service.healthcheck.readiness.test: 'CMD /readiness-probe.sh'
         kompose.service.healthcheck.readiness.interval: 10s
-        kompose.service.healthcheck.readiness.timeout: 10s
-        kompose.service.healthcheck.readiness.retries: 90
-        kompose.service.healthcheck.readiness.start_period: 1s
       ports:
         - '9000:9000'
         - '80:80'
