@@ -75,6 +75,8 @@ components:
       environment:
         MAGENTO_RUN_MODE: developer
         PHP_EXTENSIONS: 'bcmath bz2 calendar exif gd gettext intl mysqli pcntl pdo_mysql soap sockets sysvmsg sysvsem sysvshm opcache zip sodium redis xsl blackfire'
+        RUN_BUILD: 1
+        RUN_DEPLOY: 1
       labels:
         kompose.service.healthcheck.readiness.test: 'CMD /readiness-probe.sh'
         kompose.service.healthcheck.readiness.interval: 10s
