@@ -19,7 +19,7 @@ echo "Running development entrypoint: Magento build & deploy..."
 
 # Magento build
 
-if [ -n "$RUN_BUILD" ]; then
+if [ -n "$RUN_BUILD" ] && [ "$RUN_BUILD" -ne 0 ]; then
     composer global config http-basic.repo.magento.com "$MAGE_PUBKEY" "$MAGE_PRIVKEY"
 
     composer install --prefer-dist --optimize-autoloader --no-interaction
@@ -81,23 +81,26 @@ if [ -n "$RUN_BUILD" ]; then
     bin/magento setup:di:compile
 
     bin/magento setup:static-content:deploy -f
+
+    echo "Finished Magento build."
 else
   echo "Skipping Magento build. Set RUN_BUILD to 1 if you need the build to run."
 fi
 
 # Magento deploy
 
-if [ -n "$RUN_DEPLOY" ]; then
+if [ -n "$RUN_DEPLOY" ] && [ "$RUN_DEPLOY" -ne 0 ]; then
     bin/magento setup:upgrade --keep-generated
 
     bin/magento cache:flush
 
     bin/magento indexer:reindex
+
+    echo "Finished Magento deploy."
 else
   echo "Skipping Magento build. Set RUN_DEPLOY to 1 if you need the build to run."
 fi
 
-echo "Finished Magento build & deploy."
 echo "Running original entrypoint..."
 
 exec /docker-entrypoint.sh "$@"
