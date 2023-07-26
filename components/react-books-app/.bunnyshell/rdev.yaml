@@ -1,0 +1,14 @@
+profiles:
+  frontend:
+    command:
+      - "npm run start"
+
+    syncPaths:
+      - remotePath: /usr/src/app/
+        localPath: ..
+
+    portForwards:
+      - 3000>3000
+
+    environment:
+      APP_ENV: dev

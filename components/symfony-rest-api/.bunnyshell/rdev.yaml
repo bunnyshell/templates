@@ -1,0 +1,14 @@
+profiles:
+  symfony:
+    command:
+      - php-fpm
+
+    syncPaths:
+      - remotePath: /var/www
+        localPath: ..
+
+    portForwards:
+      - 9003<9003
+
+    environment:
+      APP_ENV: dev
