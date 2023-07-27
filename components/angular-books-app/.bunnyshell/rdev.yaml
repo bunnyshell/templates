@@ -1,7 +1,7 @@
 profiles:
   frontend:
     command:
-      - "npm run start"
+      - npm run start
 
     syncPaths:
       - remotePath: /usr/src/app/
