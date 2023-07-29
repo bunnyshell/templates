@@ -47,7 +47,7 @@ components:
                 subPath: ''
     -
         kind: Application
-        name: app
+        name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
         gitBranch: react-books-app/v0.5.0
         gitApplicationPath: components/react-books-app
