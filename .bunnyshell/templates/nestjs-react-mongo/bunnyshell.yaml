@@ -36,7 +36,7 @@ components:
                 subPath: ''
     -
         kind: Application
-        name: app
+        name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
         gitBranch: react-books-app/v0.5.0
         gitApplicationPath: components/react-books-app
@@ -59,3 +59,14 @@ volumes:
         name: data-volume
         size: 1Gi
         type: disk
+dev:
+    api:
+        -
+            containers:
+                api:
+                    remoteDevProfile: api
+    frontend:
+        -
+            containers:
+                frontend:
+                    remoteDevProfile: frontend

@@ -105,7 +105,7 @@ The configuration differs based on the way you chose to work, and also on your I
 
 When debugging with local code, you need to:
 1. start the Remote Development session with port-forwarding on the debugger's port (`9229` for `nodemon`)
-2. start the node process (eg. run `npm run start:dev`) in the shell you're left in after the `bns remote-development up` command finishes
+2. start the node process (eg. run `npm run start:debug`) in the shell you're left in after the `bns remote-development up` command finishes
 3. [set up the IDE with a debugging configuration](https://documentation.bunnyshell.com/docs/remote-development-debugging-nodejs#setting-up-the-ide) on the debugger's port (`9229` for `nodemon`)
 4. define a file mapping (local to remote) for the IDE configuration (eg. `{YOUR_OWN_LOCAL_PATH}}` to `/usr/src/app/backend`)
 5. start the debug process from your IDE
