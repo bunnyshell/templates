@@ -50,3 +50,14 @@ volumes:
         name: training-data-volume
         size: 1Gi
         type: disk
+dev:
+    backend:
+        -
+            containers:
+                backend:
+                    remoteDevProfile: backend
+    frontend:
+        -
+            containers:
+                frontend:
+                    remoteDevProfile: frontend

@@ -1,0 +1,8 @@
+profiles:
+  frontend:
+    syncPaths:
+      - remotePath: /usr/share/nginx/html
+        localPath: ..
+
+    environment:
+      APP_ENV: dev
