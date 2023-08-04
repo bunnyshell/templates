@@ -1,7 +1,7 @@
 {
   "name": "bunnyshell-books-backend",
   "version": "1.0.0",
-  "description": "Node.js Rest API with Express, Sequelize & PostgreSQL zzzz",
+  "description": "Node.js Rest API with Express, Sequelize & PostgreSQL zzzzz",
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon --inspect server.js",
