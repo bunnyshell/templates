@@ -10,6 +10,7 @@ exports.create = (req, res) => {
     return;
   }
 
+  // foo
   const book = {
     title: req.body.title,
     description: req.body.description,
