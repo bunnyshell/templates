@@ -212,3 +212,9 @@ volumes:
     name: public-static
     size: 100Mi
     type: network
+dev:
+    magento:
+        -
+            containers:
+                magento:
+                    remoteDevProfile: magento

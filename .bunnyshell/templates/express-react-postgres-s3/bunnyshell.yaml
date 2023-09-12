@@ -25,7 +25,7 @@ components:
                 AWS_S3_BUCKET_NAME: '{{ components.s3-bucket.exported.BUCKET_NAME }}'
                 AWS_S3_BUCKET_REGION: '{{ components.s3-bucket.exported.BUCKET_REGION }}'
                 AWS_S3_SECRET_ACCESS_KEY: '{{ env.vars.AWS_SECRET_ACCESS_KEY }}'
-                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
+                FRONTEND_URL: 'https://{{ components.frontend.ingress.hosts[0].hostname }}'
                 POSTGRES_HOST: db
             ports:
                 - '3080:3080'
@@ -48,7 +48,7 @@ components:
                 subPath: ''
     -
         kind: Application
-        name: app
+        name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
         gitBranch: react-books-app-images/v0.6.0
         gitApplicationPath: components/react-books-app-images
@@ -94,3 +94,14 @@ volumes:
         name: data-volume
         size: 1Gi
         type: disk
+dev:
+    api:
+        -
+            containers:
+                api:
+                    remoteDevProfile: api
+    frontend:
+        -
+            containers:
+                frontend:
+                    remoteDevProfile: frontend

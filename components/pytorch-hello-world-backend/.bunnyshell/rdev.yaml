@@ -1,0 +1,11 @@
+profiles:
+  backend:
+    command:
+      - python app.py
+
+    syncPaths:
+      - remotePath: /app
+        localPath: ..
+
+    environment:
+      APP_ENV: dev

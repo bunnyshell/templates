@@ -1,0 +1,11 @@
+profiles:
+  frontend:
+    command:
+      - npm run start
+
+    syncPaths:
+      - remotePath: /usr/src/app/
+        localPath: ..
+
+    environment:
+      APP_ENV: dev

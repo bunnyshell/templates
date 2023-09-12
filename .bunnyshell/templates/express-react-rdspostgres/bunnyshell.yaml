@@ -16,7 +16,7 @@ components:
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
-                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
+                FRONTEND_URL: 'https://{{ components.frontend.ingress.hosts[0].hostname }}'
                 POSTGRES_DB: '{{ env.vars.DB_NAME }}'
                 POSTGRES_HOST: '{{ components.db-rds.exported.DB_HOST }}'
                 POSTGRES_PASSWORD: '{{ components.db-rds.exported.DB_PASSWORD }}'
@@ -87,7 +87,7 @@ components:
             AWS_SECRET_ACCESS_KEY: your-aws-secret-access-key
     -
         kind: Application
-        name: app
+        name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
         gitBranch: react-books-app/v0.5.0
         gitApplicationPath: components/react-books-app
@@ -105,3 +105,14 @@ components:
                 hostname: 'app-{{ env.base_domain }}'
                 path: /
                 servicePort: 8080
+dev:
+    api:
+        -
+            containers:
+                api:
+                    remoteDevProfile: api
+    frontend:
+        -
+            containers:
+                frontend:
+                    remoteDevProfile: frontend

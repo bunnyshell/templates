@@ -1,0 +1,14 @@
+profiles:
+  api:
+    command:
+      - npm run start:dev
+
+    syncPaths:
+      - remotePath: /usr/src/app/backend
+        localPath: ..
+
+    portForwards:
+      - 9229>9229
+
+    environment:
+      APP_ENV: dev

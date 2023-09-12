@@ -1,0 +1,14 @@
+profiles:
+  api:
+    command:
+      - ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+
+    syncPaths:
+      - remotePath: /app
+        localPath: ..
+
+    portForwards:
+      - 5005>5005
+
+    environment:
+      APP_ENV: dev

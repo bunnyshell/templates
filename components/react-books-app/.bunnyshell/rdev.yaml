@@ -1,0 +1,22 @@
+profiles:
+  frontend:
+    command:
+      - npm run start
+
+    syncPaths:
+      - remotePath: /usr/src/app/
+        localPath: ..
+
+    environment:
+      APP_ENV: dev
+  frontend-image:
+    command:
+      - npm run start
+
+    syncPaths:
+      - remotePath: /usr/src/app/
+        localPath: ..
+
+    environment:
+      APP_ENV: dev
+      REACT_APP_BASE_API: 'https://api-{{ env.base_domain }}'

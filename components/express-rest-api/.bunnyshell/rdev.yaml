@@ -1,0 +1,32 @@
+profiles:
+  api:
+    command:
+      - npm run start:dev
+
+    syncPaths:
+      - remotePath: /usr/src/app/backend
+        localPath: ..
+
+    portForwards:
+      - 9229>9229
+
+    environment:
+      APP_ENV: dev
+  api-image:
+    command:
+      - npm run start:dev
+
+    syncPaths:
+      - remotePath: /usr/src/app/backend
+        localPath: ..
+
+    portForwards:
+      - 9229>9229
+
+    environment:
+      APP_ENV: dev
+      FRONTEND_URL: 'https://frontend-{{ env.base_domain }}'
+      POSTGRES_DB: '{{ env.vars.POSTGRES_DB }}'
+      POSTGRES_PASSWORD: '{{ env.vars.POSTGRES_PASSWORD }}'
+      POSTGRES_USER: '{{ env.vars.POSTGRES_USER }}'
+      POSTGRES_HOST: 'postgres-postgresql.{{ env.k8s.namespace }}.svc.cluster.local'

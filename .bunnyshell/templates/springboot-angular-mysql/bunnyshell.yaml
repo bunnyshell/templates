@@ -19,7 +19,7 @@ components:
                 DATABASE_PASSWORD: need-to-replace
                 DATABASE_PORT: '3306'
                 DATABASE_USER: books
-                FRONTEND_URL: 'https://{{ components.app.ingress.hosts[0].hostname }}'
+                FRONTEND_URL: 'https://{{ components.frontend.ingress.hosts[0].hostname }}'
             ports:
                 - '9000:9000'
         hosts:
@@ -47,7 +47,7 @@ components:
                 subPath: ''
     -
         kind: Application
-        name: app
+        name: frontend
         gitRepo: 'https://github.com/bunnyshell/templates.git'
         gitBranch: angular-books-app/v0.3.0
         gitApplicationPath: components/angular-books-app
@@ -82,3 +82,14 @@ volumes:
         name: db-data
         size: 1Gi
         type: disk
+dev:
+    api:
+        -
+            containers:
+                api:
+                    remoteDevProfile: api
+    frontend:
+        -
+            containers:
+                frontend:
+                    remoteDevProfile: frontend

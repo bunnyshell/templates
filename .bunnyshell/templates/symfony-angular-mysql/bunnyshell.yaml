@@ -127,4 +127,14 @@ volumes:
         name: database-data
         size: 1Gi
         type: disk
-
+dev:
+    symfony:
+        -
+            containers:
+                symfony:
+                    remoteDevProfile: symfony
+    frontend:
+        -
+            containers:
+                frontend:
+                    remoteDevProfile: frontend

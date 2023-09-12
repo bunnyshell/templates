@@ -1,0 +1,14 @@
+profiles:
+  magento:
+    command:
+      - php-fpm -R
+
+    syncPaths:
+      - remotePath: /app
+        localPath: ..
+
+    portForwards:
+      - 9003<9003
+
+    environment:
+      APP_ENV: dev

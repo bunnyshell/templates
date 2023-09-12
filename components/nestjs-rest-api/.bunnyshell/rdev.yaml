@@ -1,0 +1,14 @@
+profiles:
+  api:
+    command:
+      - npm run start:debug
+
+    syncPaths:
+      - remotePath: /app
+        localPath: ..
+
+    portForwards:
+      - 9229>9229
+
+    environment:
+      APP_ENV: dev
