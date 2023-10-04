@@ -29,6 +29,8 @@ components:
                 hostname: 'api-{{ env.base_domain }}'
                 path: /
                 servicePort: 3080
+        dependsOn:
+            - db-rds
     -
         kind: Terraform
         name: db-rds

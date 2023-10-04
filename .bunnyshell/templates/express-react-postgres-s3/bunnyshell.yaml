@@ -34,6 +34,8 @@ components:
                 hostname: 'api-{{ env.base_domain }}'
                 path: /
                 servicePort: 3080
+        dependsOn:
+            - s3-bucket
     -
         kind: Database
         name: db
