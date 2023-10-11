@@ -81,6 +81,9 @@ components:
             - 'helm upgrade --namespace {{ env.k8s.namespace }} --post-renderer /bns/helpers/helm/add_labels/kustomize --reuse-values --set replicas=1 api-{{ env.unique }} ./components/express-rest-api/helm-chart'
         stop:
             - 'helm upgrade --namespace {{ env.k8s.namespace }} --post-renderer /bns/helpers/helm/add_labels/kustomize --reuse-values --set replicas=0 api-{{ env.unique }} ./components/express-rest-api/helm-chart'
+        dependsOn:
+            - postgres
+            - api-image
     -
         kind: KubernetesManifest
         name: frontend
@@ -104,6 +107,8 @@ components:
             - 'kubectl scale --replicas=1 --namespace {{ env.k8s.namespace }} deployment/frontend'
         stop:
             - 'kubectl scale --replicas=0 --namespace {{ env.k8s.namespace }} deployment/frontend'
+        dependsOn:
+            - frontend-image
 dev:
     api:
         -
