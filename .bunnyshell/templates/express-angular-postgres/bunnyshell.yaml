@@ -60,7 +60,7 @@ components:
                     reservations:
                         memory: 1G
             environment:
-                API_URL: 'https://{{ components.api.ingress.hosts[0] }}'
+                API_URL: 'https://{{ components.api.ingress.hosts[0].hostname }}'
             labels:
                 kompose.service.healthcheck.readiness.test: 'CMD sh -c "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080 || exit 1"'
                 kompose.service.healthcheck.readiness.interval: 15s
