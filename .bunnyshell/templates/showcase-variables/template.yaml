@@ -20,7 +20,8 @@ variables:
   - description: 'Web server port'
     name: port
     type: int
-  - name: fib
+  - description: 'Fibonacci sequence'
+    name: fib
     type: enum
     values: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
 discoverable: true
