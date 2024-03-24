@@ -1,0 +1,18 @@
+name: Python (FastAPI) + React (CreativeTim Material Kit Pro react template) + PostgreSQL
+description: This is boilerplate for creating a Python (FastAPI) + React (CreativeTim Material 2 Pro react template) + PostgreSQL environment. It contains basic CRUD example for a todo list making it a good starting point for your next project.
+tags:
+  - Python
+  - FastAPI
+  - PostgreSQL
+  - React
+  - CreativeTim Material Kit Pro react template
+icons: ['python', 'postgres', 'react']
+stack:
+  packages:
+    - name: Python
+      version: '3.10'
+    - name: PostgreSQL
+      version: '15.2'
+    - name: React
+      version: '18.2.0'
+discoverable: true
