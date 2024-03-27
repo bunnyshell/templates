@@ -1,0 +1,21 @@
+name: Showcase - CustomDockerImage
+description: This is a boilerplate for creating a new environment using Java 17, Spring Boot, Angular (with Typescript) and MySQL. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with. It showcase the CustomDockerImage for building Java apps.
+tags: [ java, springboot, gradle, jib, angular, typescript, mysql ]
+icons: [ java, springboot, gradle, angular, typescript, mysql ]
+stack:
+  packages:
+    - name: Java
+      version: '17'
+    - name: Spring Boot
+      version: '3.1'
+    - name: Gradle
+      version: '8.6'
+    - name: Jib
+      version: '3.4.1'
+    - name: Angular
+      version: '14'
+    - name: Typescript
+      version: '4.4'
+    - name: MySQL
+      version: '4.4'
+discoverable: true
