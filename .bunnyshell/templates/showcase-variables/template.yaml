@@ -1,0 +1,27 @@
+name: Showcase - Template Variables
+description: This environment showcases template variables and their interpolation.
+tags: [ nginx ]
+icons: [ nginx ]
+stack:
+  packages:
+    - name: nginx
+      version: '1.23'
+variables:
+  - description: 'Nginx version to use'
+    name: version
+    type: enum
+    values: [1.23.1, 1.23.2, 1.23.3, 1.23.4]
+  - description: 'Enable verbose logs'
+    name: verbose
+    type: bool
+  - description: 'Web server host'
+    name: host
+    type: string
+  - description: 'Web server port'
+    name: port
+    type: int
+  - description: 'Fibonacci sequence'
+    name: fib
+    type: enum
+    values: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+discoverable: true

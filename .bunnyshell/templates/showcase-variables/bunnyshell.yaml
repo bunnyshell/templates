@@ -1,0 +1,18 @@
+name: Showcase - Template Variables
+templateVariables:
+    verbose: false
+    version: '1.23.1'
+    host: 'localhost'
+    port: 80
+    fib: 1
+components:
+    -
+        kind: Application
+        name: web
+        dockerCompose:
+            image: 'nginx:{{ template.vars.version }}'
+            environment:
+                NGINX_ENTRYPOINT_QUIET_LOGS: '{{ template.vars.verbose ? 0 : 1 }}'
+                NGINX_HOST: '{{ template.vars.host }}'
+                NGINX_PORT: '{{ template.vars.port }}'
+                FIB_SEQ: '{{ template.vars.fib }}'
