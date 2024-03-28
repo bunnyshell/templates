@@ -1,18 +1,25 @@
 kind: Environment
-name: Spring Boot / Angular / MySQL boilerplate
+name: Showcase - CustomDockerImage
 type: primary
 components:
+    -
+        kind: CustomDockerImage
+        name: api-image
+        gitRepo: 'https://github.com/bunnyshell/templates.git'
+        gitBranch: main
+        gitApplicationPath: components/springboot-rest-api-gradle
+        runnerImage: 'openjdk:17-jdk-alpine'
+        build:
+            - 'cd ./components/springboot-rest-api-gradle'
+            - './gradlew :jib --image="$BNS_IMAGE_FULL_NAME" -Djib.to.auth.username="$BNS_IMAGE_REGISTRY_USERNAME" -Djib.to.auth.password="$BNS_IMAGE_REGISTRY_PASSWORD"'
     -
         kind: Application
         name: api
         gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: springboot-rest-api/v0.1.0
-        gitApplicationPath: components/springboot-rest-api
+        gitBranch: main
+        gitApplicationPath: components/springboot-rest-api-gradle
         dockerCompose:
-            build:
-                context: ./components/springboot-rest-api
-                dockerfile: .docker/Dockerfile
-                target: dev
+            image: '{{ components.api-image.image }}'
             environment:
                 DATABASE_DBNAME: bunny_books
                 DATABASE_HOST: db
@@ -27,6 +34,8 @@ components:
                 hostname: 'api-{{ env.base_domain }}'
                 path: /
                 servicePort: 9000
+        dependsOn:
+            - api-image
     -
         kind: Database
         name: db

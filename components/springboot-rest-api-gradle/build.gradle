@@ -1,0 +1,43 @@
+plugins {
+  id 'org.springframework.boot' version '3.2.0'
+  id 'java'
+  id 'com.google.cloud.tools.jib' version '3.4.1'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.bunnyshell.templates'
+version = '0.0.1'
+description = 'Spring Boot REST API with Gradle'
+sourceCompatibility = '1.17'
+
+jib {
+  to {
+    image = 'springboot-rest-api'
+
+    def authUsername = project.findProperty("jib.to.auth.username") ?: 'AWS'
+    def authPassword = project.findProperty("jib.to.auth.password") ?: '123abc'
+    auth {
+      username = authUsername
+      password = authPassword
+    }
+  }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = uri('https://repo.spring.io/milestone')
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
