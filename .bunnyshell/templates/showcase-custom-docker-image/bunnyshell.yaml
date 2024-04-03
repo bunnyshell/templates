@@ -11,7 +11,7 @@ components:
         runnerImage: 'openjdk:17-jdk-alpine'
         build:
             - 'cd ./components/springboot-rest-api-gradle'
-            - './gradlew :jib --image="$BNS_IMAGE_FULL_NAME" -Djib.to.auth.username="$BNS_IMAGE_REGISTRY_USERNAME" -Djib.to.auth.password="$BNS_IMAGE_REGISTRY_PASSWORD"'
+            - './gradlew :jib --image="$BNS_IMAGE_FULL_NAME" -Djib.to.auth.username="$BNS_IMAGE_REGISTRY_USERNAME" -Djib.to.auth.password="$BNS_IMAGE_REGISTRY_PASSWORD" -Dorg.gradle.console=plain'
     -
         kind: Application
         name: api
