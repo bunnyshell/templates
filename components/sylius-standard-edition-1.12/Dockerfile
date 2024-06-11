@@ -30,7 +30,8 @@ COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/b
 RUN install-php-extensions apcu exif gd intl pdo_mysql opcache zip
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY docker/php/prod/php.ini        $PHP_INI_DIR/php.ini
+# composer install and other comands require more memory than normal prod usage
+COPY docker/php/dev/php.ini         $PHP_INI_DIR/php.ini
 COPY docker/php/prod/opcache.ini    $PHP_INI_DIR/conf.d/opcache.ini
 
 # copy file required by opcache preloading
@@ -113,6 +114,8 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["yarn", "build:prod"]
 
 FROM base AS sylius_php_prod
+
+COPY docker/php/prod/php.ini $PHP_INI_DIR/php.ini
 
 COPY --from=sylius_node /srv/sylius/public/build public/build
 
