@@ -2,6 +2,7 @@ name: Spring Boot + Angular + MySQL
 description: This is a boilerplate for creating a new environment using Java 17, Spring Boot, Angular (with Typescript) and MySQL. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with.
 tags: [ java, springboot, angular, typescript, mysql ]
 icons: [ java, springboot, angular, typescript, mysql ]
+categories: [ framework ]
 stack:
   packages:
     - name: Java

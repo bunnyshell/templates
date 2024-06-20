@@ -2,6 +2,7 @@ name: Symfony + Angular + MySQL
 description: This is a boilerplate for creating a new environment using PHP, Symfony, Angular (with Typescript) and MySQL. It contains a basic CRUD xample to demonstrate how components connect and make it easy to start with.
 tags: [ php, symfony, angular, typescript, mysql ]
 icons: [ php, symfony, angular, typescript, mysql ]
+categories: [ framework ]
 stack:
   packages:
     - name: PHP
