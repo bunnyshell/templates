@@ -2,6 +2,7 @@ name: Express + React + PostgreSQL
 description: This is a boilerplate for creating a new environment using Node, Express, React (with Typescript) and Postgres. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with.
 tags: [ nodejs, express, react, typescript, postgres ]
 icons: [ nodejs, express, react, typescript, postgres ]
+categories: [ framework ]
 stack:
   packages:
     - name: Node.js

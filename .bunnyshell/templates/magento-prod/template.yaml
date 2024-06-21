@@ -2,6 +2,7 @@ name: Magento 2.4 CE Production
 description: Magento 2.4 Community Edition for Production, with a complete stack. This template can be used for bootstrapping an application.
 tags: [ magento, php, mysql, elasticsearch, redis, ecommerce ]
 icons: [ magento, php, mysql, elasticsearch, redis ]
+categories: [ 'e-commerce' ]
 stack:
   packages:
     - name: Magento

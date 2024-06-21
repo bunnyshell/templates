@@ -2,6 +2,7 @@ name: Symfony + React + MySQL
 description: This is a boilerplate for creating a new environment using PHP, Symfony, React (with Typescript) and MySQL. It contains a basic CRUD xample to demonstrate how components connect and make it easy to start with.
 tags: [ php, symfony, react, typescript, mysql ]
 icons: [ php, symfony, react, typescript, mysql ]
+categories: [ framework ]
 stack:
   packages:
     - name: PHP

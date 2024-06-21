@@ -2,6 +2,7 @@ name: Sylius 1.12 Production
 description: Sylius Standard Edition 1.12 for Production, with a complete stack. This template can be used for bootstrapping an application.
 tags: [ sylius, php, mysql, ecommerce ]
 icons: [ sylius, php, mysql ]
+categories: [ 'e-commerce', framework ]
 stack:
   packages:
     - name: Sylius

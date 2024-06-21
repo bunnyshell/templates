@@ -2,6 +2,7 @@ name: Express + React + AWS RDS PostgreSQL (Terraform)
 description: This is a boilerplate for creating a new environment using Node, Express, React (with Typescript) and an AWS RDS Postgres. It contke it easy to start with.
 tags: [ nodejs, express, react, typescript, postgres, terraform ]
 icons: [ nodejs, express, react, typescript, postgres, terraform ]
+categories: [ terraform, framework ]
 stack:
   packages:
     - name: Node.js

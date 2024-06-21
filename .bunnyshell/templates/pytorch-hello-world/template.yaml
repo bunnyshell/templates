@@ -2,6 +2,7 @@ name: PyTorch Hello World
 description: This is a basic example for creating a new environment using PyTorch. It contains an image recognition application for the CIFAR-10 dataset, with two pre-trained models - MobileNet and a custom, very basic one. Training is also supported for the custom model.
 tags: [ python, pytorch, flask ]
 icons: [ python, pytorch, flask ]
+categories: [ 'ai/ml' ]
 stack:
   packages:
     - name: Python

@@ -2,6 +2,7 @@ name: NestJS + React + MongoDB
 description: This is a boilerplate for creating a new environment using Node, NestJS, React (with Typescript) and MongoDB. It contains a basic CRUD example to demonstrate how components connect and make it easy to start with.
 tags: [ nodejs, nestjs, react, typescript, mongo ]
 icons: [ nodejs, nest, react, typescript, mongo ]
+categories: [ framework ]
 stack:
   packages:
     - name: Node.js
