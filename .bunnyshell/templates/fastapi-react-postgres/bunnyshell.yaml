@@ -1,0 +1,57 @@
+kind: Environment
+name: Python (FastAPI) / React (CreativeTim Material Kit Pro react template) / PostgreSQL boilerplate
+type: primary
+components:
+  - kind: Application
+    name: backend
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
+    gitBranch: main
+    gitApplicationPath: components/fastapi-todo-backend
+    dockerCompose:
+      build:
+        context: ./components/fastapi-todo-backend
+        dockerfile: .docker/Dockerfile
+      environment:
+        PORT: 8000
+        DATABASE_URL: postgresql://postgres:need-to-replace@db:5432/fastapi_test
+      ports:
+        - '8080:8000'
+    hosts:
+      - hostname: 'backend-{{ env.base_domain }}'
+        path: /
+        servicePort: 8080
+  - kind: Database
+    name: db
+    dockerCompose:
+      environment:
+        POSTGRES_DB: fastapi_test
+        POSTGRES_PASSWORD: need-to-replace
+        POSTGRES_USER: postgres
+      image: postgres:15.2-alpine3.17
+      ports:
+        - '5432:5432'
+    volumes:
+      - name: data-volume
+        mount: /var/lib/postgresql/data
+        subPath: ''
+  - kind: Application
+    name: frontend
+    gitRepo: 'https://github.com/bunnyshell/templates.git'
+    gitBranch: main
+    gitApplicationPath: components/react-todo-app
+    dockerCompose:
+      build:
+        context: ./components/react-todo-app
+        dockerfile: .docker/Dockerfile
+      environment:
+        REACT_APP_BACKEND_URL: 'https://{{ components.backend.ingress.hosts[0] }}'
+      ports:
+        - '8080:3000'
+    hosts:
+      - hostname: 'frontend-{{ env.base_domain }}'
+        path: /todo
+        servicePort: 8080
+volumes:
+  - name: data-volume
+    size: 1Gi
+    type: disk
