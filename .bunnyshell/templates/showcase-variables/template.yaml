@@ -2,7 +2,7 @@ name: Showcase - Template Variables
 description: This environment showcases template variables and their interpolation.
 tags: [ nginx ]
 icons: [ nginx ]
-categories: [ components ]
+categories: [ 'bunnyshell design patterns' ]
 stack:
   packages:
     - name: nginx
