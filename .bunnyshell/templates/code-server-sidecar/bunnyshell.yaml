@@ -1,0 +1,67 @@
+kind: Environment
+name: code-server
+type: primary
+templateVariables:
+    CODE_SERVER_DEFAULT_WORKSPACE: /config/workspace
+    SOURCE_CODE_PATH: /usr/share/nginx/html
+    CODE_SERVER_HOST: code-server-{{env.base_domain}}
+    HASHED_PASSWORD: ''
+    PASSWORD: password
+    PGID: '1000'
+    PROXY_DOMAIN: ''
+    PUID: '1000'
+    SUDO_PASSWORD: password
+    SUDO_PASSWORD_HASH: ''
+    TZ: Etc/UTC
+components:
+    -
+        kind: Application
+        name: sample-app
+        gitRepo: 'https://github.com/aminalali8/mini-web.git'
+        gitBranch: master
+        gitApplicationPath: /
+        dockerCompose:
+            build:
+                context: .
+                dockerfile: Dockerfile
+            ports:
+                - '80:80'
+                - '8443:8443'
+        pod:
+            sidecar_containers:
+                -
+                    from: code-server
+                    name: sidecar-code-server
+                    shared_paths:
+                        -
+                            path: {{template.vars.CODE_SERVER_DEFAULT_WORKSPACE}}
+                            target:
+                                path: '{{template.vars.SOURCE_CODE_PATH}}'
+                                container: '@parent'
+                            initial_contents: '@target'
+        hosts:
+            -
+                hostname: 'web-{{env.base_domain}}'
+                path: /
+                servicePort: 80
+            -
+                hostname: '{{template.vars.CODE_SERVER_HOST}}'
+                path: /
+                servicePort: '8443'
+    -
+        kind: SidecarContainer
+        name: code-server
+        dockerCompose:
+            image: 'lscr.io/linuxserver/code-server:latest'
+            environment:
+                DEFAULT_WORKSPACE: '{{template.vars.CODE_SERVER_DEFAULT_WORKSPACE}}'
+                HASHED_PASSWORD: {{template.vars.HASHED_PASSWORD}}
+                PASSWORD: {{template.vars.PASSWORD}}
+                PGID: '{{template.vars.PGID}}'
+                PROXY_DOMAIN: {{template.vars.PROXY_DOMAIN}}
+                PUID: '{{template.vars.PUID}}'
+                SUDO_PASSWORD: {{template.vars.SUDO_PASSWORD}}
+                SUDO_PASSWORD_HASH: {{template.vars.SUDO_PASSWORD_HASH}}
+                TZ: {{ template.vars.TZ }}
+            ports:
+                - '8443:8443'
