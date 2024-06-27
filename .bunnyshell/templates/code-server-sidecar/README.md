@@ -54,9 +54,9 @@ When mounting volumes across containers, permission issues can arise between the
                     name: sidecar-code-server
                     shared_paths:
                         -
-                            path: {{template.vars.CODE_SERVER_DEFAULT_WORKSPACE}}
+                            path: /config/workspace
                             target:
-                                path: '{{template.vars.SOURCE_CODE_PATH}}'
+                                path: /usr/share/nginx/html
                                 container: '@parent'
                             initial_contents: '@target'
     ```
@@ -81,7 +81,7 @@ When mounting volumes across containers, permission issues can arise between the
     ```yaml
     dockerCompose:
         environment:
-            DEFAULT_WORKSPACE: '{{template.vars.CODE_SERVER_DEFAULT_WORKSPACE}}'
+            DEFAULT_WORKSPACE: '/config/workspace'
             HASHED_PASSWORD: {{template.vars.HASHED_PASSWORD}}
             PASSWORD: {{template.vars.PASSWORD}}
             PGID: '{{template.vars.PGID}}'
@@ -111,8 +111,6 @@ kind: Environment
 name: code-server
 type: primary
 templateVariables:
-    CODE_SERVER_DEFAULT_WORKSPACE: /config/workspace
-    SOURCE_CODE_PATH: /usr/share/nginx/html
     CODE_SERVER_HOST: code-server-{{env.base_domain}}
     HASHED_PASSWORD: ''
     PASSWORD: password
@@ -143,9 +141,9 @@ components:
                     name: sidecar-code-server
                     shared_paths:
                         -
-                            path: {{template.vars.CODE_SERVER_DEFAULT_WORKSPACE}}
+                            path: /config/workspace
                             target:
-                                path: '{{template.vars.SOURCE_CODE_PATH}}'
+                                path: /usr/share/nginx/html
                                 container: '@parent'
                             initial_contents: '@target'
         hosts:
@@ -163,7 +161,7 @@ components:
         dockerCompose:
             image: 'lscr.io/linuxserver/code-server:latest'
             environment:
-                DEFAULT_WORKSPACE: '{{template.vars.CODE_SERVER_DEFAULT_WORKSPACE}}'
+                DEFAULT_WORKSPACE: '/config/workspace'
                 HASHED_PASSWORD: {{template.vars.HASHED_PASSWORD}}
                 PASSWORD: {{template.vars.PASSWORD}}
                 PGID: '{{template.vars.PGID}}'

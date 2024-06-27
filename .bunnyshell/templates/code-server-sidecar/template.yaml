@@ -7,8 +7,8 @@ tags:
 icons: [ 'vscode', 'docker' ]
 stack:
   packages:
-    - name: Code Server
-      version: 'latest'
+    - name: Linuxserver CodeServer
+      version: '4.90.3'
 discoverable: true
 categories:
     - web-ides
