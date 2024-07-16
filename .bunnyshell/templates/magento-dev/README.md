@@ -8,9 +8,15 @@ An [Environment in Bunnyshell](https://documentation.bunnyshell.com/docs/environ
 
 ## Template specifics
 
-In order to download Magento, you will need to fill in the Magento keys, which you can get from your Adobe account:
+### Magento Keys !!
+Adobe requires a developer account to be able to install Magento.
+In order for the environment to successfully deploy, you MUST fill in this Magento auth secret variables with the values from your Adobe account:
 - `MAGE_PRIVKEY`
 - `MAGE_PUBKEY`
+
+### ElasticSearch Resources
+Elasticsearch is configured to use 1GB of RAM. Edit the environment yaml ( `resources` section of the `elasticsearch` component) to set a different value.
+
 
 &nbsp;
 

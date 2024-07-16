@@ -20,3 +20,10 @@ stack:
     - name: Varnish
       version: '7.1'
 discoverable: true
+variables:
+  - description: 'Magento Private Key'
+    name: 'MAGE_PRIVKEY'
+    type: 'string'
+  - description: 'Magento Public Key'
+    name: 'MAGE_PUBKEY'
+    type: 'string'    
