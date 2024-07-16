@@ -22,8 +22,8 @@ environmentVariables:
   MAGE_INIT_PARAMS: MAGE_MODE=developer
   MAGE_KEY: abcdefghijklmnopqrstuvwxyzABCDEF
   MAGE_LANGUAGE: en_US
-  MAGE_PRIVKEY: replace-with-your-credentials
-  MAGE_PUBKEY: replace-with-your-credentials
+  MAGE_PRIVKEY: '{{ template.vars.MAGE_PRIVKEY }}'
+  MAGE_PUBKEY: '{{ template.vars.MAGE_PUBKEY }}'
   MAGE_SEARCH_ENGINE: elasticsearch7
   MAGE_TIMEZONE: Europe/Bucharest
   MAGE_USE_REWRITES: '1'
