@@ -7,7 +7,7 @@ tags:
   - data science
 icons: ["python", "jupyter", "helm"]
 categories:
-  - web-ides
+  - web ides
 stack:
   packages:
     - name: JupyterHub

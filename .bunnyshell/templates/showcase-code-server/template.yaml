@@ -6,7 +6,7 @@ tags:
     - sidecar
 icons: [ 'vscode', 'docker' ]
 categories:
-    - web-ides
+    - web ides
 stack:
   packages:
     - name: Linuxserver CodeServer
