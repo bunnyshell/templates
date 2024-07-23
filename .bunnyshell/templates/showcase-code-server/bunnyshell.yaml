@@ -1,0 +1,124 @@
+kind: Environment
+name: code-server
+type: primary
+templateVariables:
+    CODE_SERVER_HOST: 'code-server-{{env.base_domain}}'
+    HASHED_PASSWORD: ''
+    PASSWORD: password
+    PGID: '0'
+    PROXY_DOMAIN: ''
+    PUID: '0'
+    SUDO_PASSWORD: password
+    SUDO_PASSWORD_HASH: ''
+    TZ: Etc/UTC
+components:
+    -
+        kind: Application
+        name: frontend
+        gitRepo: 'https://github.com/bunnyshell/demo-books.git'
+        gitBranch: master
+        gitApplicationPath: frontend
+        dockerCompose:
+            build:
+                context: ./frontend
+                dockerfile: Dockerfile
+                target: dev
+                args:
+                    REACT_APP_BASE_API: 'https://{{ components.backend.ingress.hosts[0] }}'
+            ports:
+                - '8080:8080'
+                - '8443:8443'
+        pod:
+            sidecar_containers:
+                -
+                    from: code-server
+                    name: sidecar-code-server
+                    shared_paths:
+                        -
+                            path: /cs_workspace
+                            target:
+                                path: /usr/src/app
+                                container: '@parent'
+                            initial_contents: '@target'
+        hosts:
+            -
+                hostname: 'frontend-{{ env.base_domain }}'
+                path: /
+                servicePort: 8080
+            -
+                hostname: '{{template.vars.CODE_SERVER_HOST}}'
+                path: /
+                servicePort: 8443
+    -
+        kind: SidecarContainer
+        name: code-server
+        dockerCompose:
+            image: 'lscr.io/linuxserver/code-server:4.90.3'
+            environment:
+                DEFAULT_WORKSPACE: /cs_workspace
+                HASHED_PASSWORD: '{{template.vars.HASHED_PASSWORD}}'
+                PASSWORD: '{{template.vars.PASSWORD}}'
+                PGID: '{{template.vars.PGID}}'
+                PROXY_DOMAIN: '{{template.vars.PROXY_DOMAIN}}'
+                PUID: '{{template.vars.PUID}}'
+                SUDO_PASSWORD: '{{template.vars.SUDO_PASSWORD}}'
+                SUDO_PASSWORD_HASH: '{{template.vars.SUDO_PASSWORD_HASH}}'
+                TZ: '{{ template.vars.TZ }}'
+            ports:
+                - '8443:8443'
+        volumes:
+            -
+                name: code-server-data
+                mount: /config
+                subPath: ''
+    -
+        kind: Application
+        name: backend
+        gitRepo: 'https://github.com/bunnyshell/demo-books.git'
+        gitBranch: master
+        gitApplicationPath: backend
+        dockerCompose:
+            build:
+                context: ./backend
+                dockerfile: Dockerfile
+                target: prod
+            environment:
+                FRONTEND_URL: 'https://{{ components.frontend.ingress.hosts[0].hostname }}'
+                POSTGRES_DB: bunny_books
+                POSTGRES_HOST: db
+                POSTGRES_PASSWORD: need-to-replace
+                POSTGRES_USER: postgres
+            ports:
+                - '3080:3080'
+        hosts:
+            -
+                hostname: 'backend-{{ env.base_domain }}'
+                path: /
+                servicePort: 3080
+    -
+        kind: Database
+        name: db
+        dockerCompose:
+            environment:
+                POSTGRES_DB: bunny_books
+                POSTGRES_PASSWORD: need-to-replace
+                POSTGRES_USER: postgres
+            image: postgres
+            restart: always
+            user: postgres
+            ports:
+                - '5432:5432'
+        volumes:
+            -
+                name: db-data
+                mount: /var/lib/postgresql/data
+                subPath: ''
+volumes:
+    -
+        name: db-data
+        size: 1Gi
+        type: disk
+    -
+        name: code-server-data
+        size: 1Gi
+        type: disk
