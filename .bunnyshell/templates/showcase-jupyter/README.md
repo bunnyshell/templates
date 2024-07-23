@@ -18,7 +18,7 @@ Deploying JupyterHub on Bunnyshell utilizes the `zero-to-jupyterhub-k8s` Helm ch
 4. **Deploy**
 
 ## References
-- The helm charts full [configuration yaml](./config.yaml) ≤file.
+- The helm charts full [configuration yaml](https://github.com/bunnyshell/templates/blob/main/.bunnyshell/templates/showcase-jupyter/config.yaml) file.
 
 ## Summary
 
