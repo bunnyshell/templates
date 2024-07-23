@@ -1,0 +1,86 @@
+kind: Environment
+name: jupyter
+type: primary
+templateVariables:
+    chart_version: 3.3
+components:
+    -
+        kind: Helm
+        name: jupyter
+        runnerImage: 'dtzar/helm-kubectl:3.8.2'
+        deploy:
+            - |
+                helm repo add jupyterhub https://hub.jupyter.org/helm-chart/
+                helm repo update
+                cat <<EOF > config.yaml
+                # custom can contain anything you want to pass to the hub pod, as all passed
+                # Helm template values will be made available there.
+                custom: {}
+
+                # add labels to all components
+                hub: 
+                    baseUrl: /
+                    networkPolicy:
+                        enabled: true
+                        allowedIngressPorts: [http, https]
+                # singleuser relates to the configuration of KubeSpawner which runs in the hub
+                # pod, and its spawning of user pods such as jupyter-myusername.
+                singleuser:
+                    networkPolicy:
+                        enabled: false
+                        ingress: []
+                        egress: []
+                        egressAllowRules:
+                            cloudMetadataServer: false
+                            dnsPortsCloudMetadataServer: true
+                            dnsPortsKubeSystemNamespace: true
+                            dnsPortsPrivateIPs: true
+                            nonPrivateIPs: true
+                            privateIPs: false
+                        interNamespaceAccessLabels: ignore
+                        allowedIngressPorts: []
+                    storage:
+                        type: dynamic
+                        capacity: 2Gi
+                        dynamic:
+                            storageClass: bns-disk-sc
+                            pvcNameTemplate: claim-{username}{servername}
+                            volumeNameTemplate: volume-{username}{servername}
+                            storageAccessModes: [ReadWriteOnce]
+                    cmd: jupyterhub-singleuser
+                    defaultUrl: "/lab"
+                # Ingress configuration
+                ingress:
+                    enabled: true
+                    annotations: {}
+                    ingressClassName: bns-nginx
+                    hosts: 
+                        - jupyter-{{env.base_domain}}
+                    pathSuffix: ''
+                    pathType: Prefix
+                    tls: []
+                EOF
+                helm upgrade --cleanup-on-fail \
+                    --install jupyter-{{env.unique}} jupyterhub/jupyterhub \
+                    --namespace {{env.k8s.namespace}} \
+                    --version={{template.vars.chart_version}} \
+                    --values config.yaml \
+                    --post-renderer /bns/helpers/helm/add_labels/kustomize
+        destroy:
+            - 'helm delete jupyter-{{ env.unique }} --namespace {{ env.k8s.namespace }}'
+        start:
+            - |
+                # Scale down the hub deployment
+                kubectl scale deployment hub --replicas=1 -n {{env.k8s.namespace}}
+                # Scale down the proxy deployment
+                kubectl scale deployment proxy --replicas=1 -n {{env.k8s.namespace}}
+                # Scale down the user-scheduler deployment
+                kubectl scale deployment user-scheduler --replicas=2 -n {{env.k8s.namespace}}
+        stop:
+            - |
+                # Scale down the hub deployment
+                kubectl scale deployment hub --replicas=0 -n {{env.k8s.namespace}}
+                # Scale down the proxy deployment
+                kubectl scale deployment proxy --replicas=0 -n {{env.k8s.namespace}}
+                # Scale down the user-scheduler deployment
+                kubectl scale deployment user-scheduler --replicas=0 -n {{env.k8s.namespace}}
