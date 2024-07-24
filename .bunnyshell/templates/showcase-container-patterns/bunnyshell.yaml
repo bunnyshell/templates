@@ -1,0 +1,233 @@
+kind: Environment
+name: container-patterns
+type: primary
+templateVariables:
+  CODE_SERVER_HOST: "code-server-{{env.base_domain}}"
+  HASHED_PASSWORD: ""
+  PASSWORD: password
+  PGID: "0"
+  PROXY_DOMAIN: ""
+  PUID: "0"
+  SUDO_PASSWORD: password
+  SUDO_PASSWORD_HASH: ""
+  TZ: Etc/UTC
+components:
+  - kind: Application
+    name: frontend
+    gitRepo: "https://github.com/bunnyshell/demo-books.git"
+    gitBranch: master
+    gitApplicationPath: frontend
+    dockerCompose:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+        target: dev
+        args:
+          REACT_APP_BASE_API: "https://{{ components.backend.ingress.hosts[0] }}"
+      ports:
+        - "8080:8080"
+        - "8443:8443"
+    pod:
+      sidecar_containers:
+        - from: code-server
+          name: sidecar-code-server
+          shared_paths:
+            - path: /cs_workspace
+              target:
+                path: /usr/src/app
+                container: "@parent"
+              initial_contents: "@target"
+    hosts:
+      - hostname: "frontend-{{ env.base_domain }}"
+        path: /
+        servicePort: 8080
+      - hostname: "{{template.vars.CODE_SERVER_HOST}}"
+        path: /
+        servicePort: 8443
+  - kind: SidecarContainer
+    name: code-server
+    dockerCompose:
+      image: "lscr.io/linuxserver/code-server:4.90.3"
+      environment:
+        DEFAULT_WORKSPACE: /cs_workspace
+        HASHED_PASSWORD: "{{template.vars.HASHED_PASSWORD}}"
+        PASSWORD: "{{template.vars.PASSWORD}}"
+        PGID: "{{template.vars.PGID}}"
+        PROXY_DOMAIN: "{{template.vars.PROXY_DOMAIN}}"
+        PUID: "{{template.vars.PUID}}"
+        SUDO_PASSWORD: "{{template.vars.SUDO_PASSWORD}}"
+        SUDO_PASSWORD_HASH: "{{template.vars.SUDO_PASSWORD_HASH}}"
+        TZ: "{{ template.vars.TZ }}"
+      ports:
+        - "8443:8443"
+    volumes:
+      - name: code-server-data
+        mount: /config
+        subPath: ""
+  - kind: Application
+    name: backend
+    gitRepo: "https://github.com/bunnyshell/demo-books.git"
+    gitBranch: master
+    gitApplicationPath: backend
+    dockerCompose:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+        target: prod
+      environment:
+        FRONTEND_URL: "https://{{ components.frontend.ingress.hosts[0].hostname }}"
+        POSTGRES_DB: bunny_books
+        POSTGRES_HOST: db
+        POSTGRES_PASSWORD: need-to-replace
+        POSTGRES_USER: postgres
+      ports:
+        - "3080:3080"
+    hosts:
+      - hostname: "backend-{{ env.base_domain }}"
+        path: /
+        servicePort: 3080
+    pod:
+      init_containers:
+        - from: init-db-seed
+          name: init-db-seed
+          shared_paths:
+            - path: /tmp
+              target:
+                path: /tmp
+                container: "@parent"
+              initial_contents: "@target"
+    dependsOn: 
+      - db
+  - kind: Database
+    name: db
+    dockerCompose:
+      environment:
+        POSTGRES_DB: bunny_books
+        POSTGRES_PASSWORD: need-to-replace
+        POSTGRES_USER: postgres
+      image: postgres
+      restart: always
+      user: postgres
+      ports:
+        - "5432:5432"
+    volumes:
+      - name: db-data
+        mount: /var/lib/postgresql/data
+        subPath: ""
+  - kind: InitContainer
+    name: init-db-seed
+    dockerCompose:
+      image: postgres:latest
+      environment:
+        PGPASSWORD: "{{components.db.vars.POSTGRES_PASSWORD}}"
+      command: ["/bin/sh", "-c", 'psql -h db -U postgres -f /tmp/seed.sql']
+    files: 
+      /tmp/seed.sql: |
+        CREATE DATABASE bunny_books;
+        -- Connect to the database
+        \c bunny_books
+
+        --
+        -- PostgreSQL database dump
+        --
+
+        -- Dumped from database version 16.3 (Debian 16.3-1.pgdg120+1)
+        -- Dumped by pg_dump version 16.3 (Debian 16.3-1.pgdg120+1)
+
+        SET statement_timeout = 0;
+        SET lock_timeout = 0;
+        SET idle_in_transaction_session_timeout = 0;
+        SET client_encoding = 'UTF8';
+        SET standard_conforming_strings = on;
+        SELECT pg_catalog.set_config('search_path', '', false);
+        SET check_function_bodies = false;
+        SET xmloption = content;
+        SET client_min_messages = warning;
+        SET row_security = off;
+
+        SET default_tablespace = '';
+
+        SET default_table_access_method = heap;
+
+        --
+        -- Name: books; Type: TABLE; Schema: public; Owner: postgres
+        --
+
+        CREATE TABLE public.books (
+            id integer NOT NULL,
+            title character varying(255),
+            description character varying(255),
+            available boolean,
+            "createdAt" timestamp with time zone NOT NULL,
+            "updatedAt" timestamp with time zone NOT NULL
+        );
+
+
+        ALTER TABLE public.books OWNER TO postgres;
+
+        --
+        -- Name: books_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+        --
+
+        CREATE SEQUENCE public.books_id_seq
+            AS integer
+            START WITH 1
+            INCREMENT BY 1
+            NO MINVALUE
+            NO MAXVALUE
+            CACHE 1;
+
+
+        ALTER SEQUENCE public.books_id_seq OWNER TO postgres;
+
+        --
+        -- Name: books_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+        --
+
+        ALTER SEQUENCE public.books_id_seq OWNED BY public.books.id;
+
+
+        --
+        -- Name: books id; Type: DEFAULT; Schema: public; Owner: postgres
+        --
+
+        ALTER TABLE ONLY public.books ALTER COLUMN id SET DEFAULT nextval('public.books_id_seq'::regclass);
+
+
+        --
+        -- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: postgres
+        --
+
+        COPY public.books (id, title, description, available, "createdAt", "updatedAt") FROM stdin;
+        2	Book 1 	Description of book one	f	2024-07-24 08:15:50.226+00	2024-07-24 08:15:50.226+00
+        3	Book 2 	Description of Book two	f	2024-07-24 08:16:01.531+00	2024-07-24 08:16:01.531+00
+        4	Book 3 	Descriiption of book 3	f	2024-07-24 08:16:11.66+00	2024-07-24 08:16:11.66+00
+        \.
+
+
+        --
+        -- Name: books_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+        --
+
+        SELECT pg_catalog.setval('public.books_id_seq', 4, true);
+
+
+        --
+        -- Name: books books_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+        --
+
+        ALTER TABLE ONLY public.books
+            ADD CONSTRAINT books_pkey PRIMARY KEY (id);
+
+
+        --
+        -- PostgreSQL database dump complete
+        --
+volumes:
+  - name: db-data
+    size: 1Gi
+    type: disk
+  - name: code-server-data
+    size: 1Gi
+    type: disk
+
