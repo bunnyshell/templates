@@ -5,7 +5,7 @@ tags:
   - bunnyshell
 icons: [ 'typescript', 'postgres' ]
 categories:
-  - bunnyshelldesignpatterns
+  - "bunnyshell design patterns"
 stack:
   packages: 
     - name: "Typescript"
