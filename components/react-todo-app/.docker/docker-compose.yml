@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: ./../
+      dockerfile: .docker/Dockerfile
+    environment:
+      HOST: 0.0.0.0
+      REACT_APP_BACKEND_URL: http://0.0.0.0:8002/
+    ports:
+      - '8080:3000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./../:/app
+    restart: 'no'
+    depends_on:
+      - api
+volumes:
+  db-data:
