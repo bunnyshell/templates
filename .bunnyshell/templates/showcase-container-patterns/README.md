@@ -7,10 +7,13 @@ The `container-patterns-tpl` template demonstrates how to utilize init and sidec
 The init container is responsible for executing preliminary tasks before the main application starts. In this example, the init container is seeding the database.
 
 ### Init Container Definition
-To define an init container within the main container's configuration, you use the `init_containers` field. Here's the configuration snippet:
+To define an init container within the main container's configuration, you use the `init_containers` field. The initContainer is attached to the `backend` component, which is configured to depend on the `db` component. Here's the configuration snippet:
 
 ```yaml
 # Within the definition of the main container bind the init container
+Kind: application
+name: backend
+...
 pod:
   init_containers:
     - from: init-db-seed
@@ -21,10 +24,13 @@ pod:
             path: /tmp
             container: "@parent"
           initial_contents: "@target"
+...
+dependsOn:
+  - db
 ```
 
 ### Init Container Implementation
-The init container uses the `busybox` image to create a file in the specified paths. Here is the definition of the init container component:
+The init container uses the `postgres` image to seed the database. The seed script connects to the host named `db` which is the component name. Here is the definition of the init container component:
 
 ```yaml
 - kind: InitContainer
