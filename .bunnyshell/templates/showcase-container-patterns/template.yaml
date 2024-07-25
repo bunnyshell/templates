@@ -1,0 +1,16 @@
+# Template Documentation
+name: Showcase Container Patterns
+description: The template demonstrates how to utilize init and sidecar containers in Bunnyshell. It provides practical examples to illustrate their setup and interaction within a containerized environment.
+tags:
+  - bunnyshell
+icons: [ 'typescript', 'postgres' ]
+categories:
+  - "bunnyshell design patterns"
+stack:
+  packages: 
+    - name: "Typescript"
+      version: "4.4.3"
+    - name: "Postgres"
+      version: "16.3"
+discoverable: true
+
