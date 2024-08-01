@@ -1,0 +1,14 @@
+name: VS Code Sidecar Integration
+description: This template showcases how to integrate VS Code as a sidecar container for remote development using Bunnyshell. It includes a sample application with a backend service and demonstrates how to configure the environment to avoid permission issues when mounting volumes across containers.
+tags:
+    - vscode
+    - remote-development
+    - sidecar
+icons: [ 'vscode', 'docker' ]
+stack:
+  packages:
+    - name: Linuxserver CodeServer
+      version: '4.90.3'
+discoverable: true
+categories:
+    - web-ides
