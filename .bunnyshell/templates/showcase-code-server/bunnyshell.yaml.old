@@ -2,13 +2,13 @@ kind: Environment
 name: code-server
 type: primary
 templateVariables:
-    PASSWORD: password
-    SUDO_PASSWORD: password
-environmentVariables:
+    CODE_SERVER_HOST: 'code-server-{{env.base_domain}}'
     HASHED_PASSWORD: ''
+    PASSWORD: password
     PGID: '0'
     PROXY_DOMAIN: ''
     PUID: '0'
+    SUDO_PASSWORD: password
     SUDO_PASSWORD_HASH: ''
     TZ: Etc/UTC
 components:
@@ -46,19 +46,24 @@ components:
                 path: /
                 servicePort: 8080
             -
-                hostname: 'code-server-{{env.base_domain}}'
+                hostname: '{{template.vars.CODE_SERVER_HOST}}'
                 path: /
                 servicePort: 8443
     -
         kind: SidecarContainer
         name: code-server
         dockerCompose:
-            image: 'lscr.io/linuxserver/code-server:latest'
+            image: 'lscr.io/linuxserver/code-server:4.90.3'
             environment:
                 DEFAULT_WORKSPACE: /cs_workspace
-                CODE_SERVER_HOST: '0.0.0.0'
+                HASHED_PASSWORD: '{{template.vars.HASHED_PASSWORD}}'
                 PASSWORD: '{{template.vars.PASSWORD}}'
+                PGID: '{{template.vars.PGID}}'
+                PROXY_DOMAIN: '{{template.vars.PROXY_DOMAIN}}'
+                PUID: '{{template.vars.PUID}}'
                 SUDO_PASSWORD: '{{template.vars.SUDO_PASSWORD}}'
+                SUDO_PASSWORD_HASH: '{{template.vars.SUDO_PASSWORD_HASH}}'
+                TZ: '{{ template.vars.TZ }}'
             ports:
                 - '8443:8443'
         volumes:

@@ -6,38 +6,18 @@ tags:
     - sidecar
 icons: [ 'vscode', 'docker' ]
 categories:
-    - web ides
+    - web-ides
 stack:
   packages:
     - name: Linuxserver CodeServer
-      version: '4.90.3'
+      version: '4.100.2'
 variables:
-  - description: 'The hostname for the Code Server service'  
-    name: 'CODE_SERVER_HOST'
-    type: 'string'
-  - description: 'Hashed password for authentication'  
-    name: 'HASHED_PASSWORD'
-    type: 'string'
   - description: 'Plain text password for authentication'  
     name: 'PASSWORD'
     type: 'string'
-  - description: 'Group ID for the container'  
-    name: 'PGID'
-    type: 'int'
-  - description: 'Proxy domain for the application'  
-    name: 'PROXY_DOMAIN'
-    type: 'string'
-  - description: 'User ID for the container'  
-    name: 'PUID'
-    type: 'int'
   - description: 'Sudo password for the container'  
     name: 'SUDO_PASSWORD'
     type: 'string'
-  - description: 'Hashed sudo password for the container'  
-    name: 'SUDO_PASSWORD_HASH'
-    type: 'string'
-  - description: 'Timezone for the container'  
-    name: 'TZ'
-    type: 'string'
+
 discoverable: true
 
