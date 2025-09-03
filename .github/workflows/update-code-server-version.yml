@@ -1,0 +1,127 @@
+name: Update Code-Server Version
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual triggering
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/update-code-server-version.yml'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Get latest Code-Server version
+        id: get-version
+        run: |
+          # Get the latest version from Docker Hub with better error handling
+          echo "Fetching latest Code-Server version from Docker Hub..."
+          
+          # Try to get the latest version
+          RESPONSE=$(curl -s -w "%{http_code}" "https://registry.hub.docker.com/v2/repositories/linuxserver/code-server/tags/")
+          HTTP_CODE="${RESPONSE: -3}"
+          BODY="${RESPONSE%???}"
+          
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Error: Failed to fetch from Docker Hub (HTTP $HTTP_CODE)"
+            exit 1
+          fi
+          
+          # Extract version using jq
+          LATEST_VERSION=$(echo "$BODY" | jq -r '.results[] | select(.name | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name' | sort -V | tail -n 1)
+          
+          if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" = "null" ]; then
+            echo "Error: Could not extract version from Docker Hub response"
+            echo "Response body: $BODY"
+            exit 1
+          fi
+          
+          echo "Latest Code-Server version: $LATEST_VERSION"
+          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if version needs updating
+        id: check-version
+        run: |
+          CURRENT_VERSION=$(grep -A 1 "Linuxserver CodeServer" .bunnyshell/templates/showcase-code-server/template.yaml | grep "version:" | sed 's/.*version: //' | tr -d "'")
+          LATEST_VERSION="${{ steps.get-version.outputs.version }}"
+          
+          echo "Current version: $CURRENT_VERSION"
+          echo "Latest version: $LATEST_VERSION"
+          
+          if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
+            echo "No update needed"
+            echo "update_needed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Update needed"
+            echo "update_needed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update template.yaml
+        if: steps.check-version.outputs.update_needed == 'true'
+        run: |
+          # Update the version in template.yaml
+          sed -i "s/version: '[0-9]\+\.[0-9]\+\.[0-9]\+'/version: '${{ steps.get-version.outputs.version }}'/g" .bunnyshell/templates/showcase-code-server/template.yaml
+          
+          # Verify the change
+          echo "Updated template.yaml:"
+          grep -A 1 "Linuxserver CodeServer" .bunnyshell/templates/showcase-code-server/template.yaml
+
+      - name: Create Pull Request
+        if: steps.check-version.outputs.update_needed == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update Code-Server to version ${{ steps.get-version.outputs.version }}"
+          title: "🔄 Update Code-Server to version ${{ steps.get-version.outputs.version }}"
+          body: |
+            ## 🔄 Code-Server Version Update
+            
+            This PR automatically updates the Code-Server version in the template.
+            
+            **Changes:**
+            - Updated Code-Server to latest version **${{ steps.get-version.outputs.version }}**
+            
+            **Why this update:**
+            - Keeps the template up-to-date with the latest Code-Server features
+            - Ensures security patches are included
+            - Maintains compatibility with latest Docker images
+            
+            **Automated by:** GitHub Action `update-code-server-version.yml`
+            
+            ---
+            *This PR was automatically generated. Please review and merge if everything looks good.*
+          branch: update/code-server-version-${{ steps.get-version.outputs.version }}
+          delete-branch: true
+          labels: |
+            automated
+            dependencies
+            code-server
+          assignees: ${{ github.repository_owner }}
+          committer: GitHub <noreply@github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+
+      - name: Comment on PR if no update needed
+        if: steps.check-version.outputs.update_needed == 'false' && github.event_name == 'workflow_dispatch'
+        run: |
+          echo "✅ No update needed. Current version is already up-to-date."
